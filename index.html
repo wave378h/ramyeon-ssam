@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ramyeon ssam - ระบบรับรูปพรินต์ลูกค้า</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            red: '#E53E3E',
+                            redDark: '#9B2C2C',
+                            redLight: '#FFF5F5',
+                            yellow: '#ECC94B',
+                            black: '#1A202C'
+                        }
+                    },
+                    fontFamily: {
+                        thai: ['Prompt', 'Kanit', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Firebase Realtime SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #F7FAFC;
+        }
+        .bg-instagram {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+        @keyframes scaleUp {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .animate-scale-up {
+            animation: scaleUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        @keyframes checkmark {
+            0% { stroke-dashoffset: 100; }
+            100% { stroke-dashoffset: 0; }
+        }
+        .animate-checkmark {
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            animation: checkmark 0.6s ease-in-out forwards 0.2s;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col justify-between">
+
+    <!-- Top Navigation / Header -->
+    <header class="bg-brand-red text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div id="logoContainer" class="flex items-center space-x-2 cursor-pointer" onclick="switchView('customer')">
+                <div id="restaurantLogo" class="w-12 h-12 bg-white text-brand-red font-bold rounded-full flex items-center justify-center text-xs text-center border-2 border-brand-yellow shadow overflow-hidden p-1">
+                    <span id="logoText">LOGO<br>RAMYEON</span>
+                    <img id="logoImg" src="" alt="Ramyeon ssam Logo" class="hidden w-full h-full object-cover rounded-full">
+                </div>
+                <span class="font-bold text-xl tracking-wide hidden sm:inline">Ramyeon ssam</span>
+            </div>
+
+            <div class="flex items-center space-x-2">
+                <button id="navCustomerBtn" onclick="switchView('customer')" class="px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold bg-white text-brand-red shadow">
+                    <i class="fa-solid fa-user mr-1"></i> ฝั่งลูกค้า
+                </button>
+                <button id="navAdminBtn" onclick="switchView('admin')" class="px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold bg-brand-redDark text-white hover:bg-black transition">
+                    <i class="fa-solid fa-user-shield mr-1"></i> ระบบแอดมิน
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="max-w-xl mx-auto w-full p-4 flex-grow">
+
+        <!-- 1. CUSTOMER SECTION -->
+        <section id="customerView" class="space-y-6">
+            <div id="customerFormView" class="space-y-6 animate-scale-up">
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-red-100 text-center">
+                    <h1 class="text-2xl font-bold text-brand-red mb-1">ระบบรับรูปพรินต์ลูกค้า</h1>
+                    <p class="text-sm text-gray-600 mb-4">ติดตามเพจ Facebook และ Instagram ค้นหา <span class="font-semibold text-brand-red">‘ramyeonssam’</span></p>
+                    
+                    <div class="grid grid-cols-2 gap-3">
+                        <a href="https://www.facebook.com/profile.php?id=61592560921596" target="_blank" onclick="trackSocialClick('facebook')" class="flex items-center justify-center space-x-2 bg-[#1877F2] text-white py-2.5 px-4 rounded-xl font-medium shadow hover:opacity-90 transition active:scale-95">
+                            <i class="fa-brands fa-facebook text-xl"></i>
+                            <div class="text-left text-xs leading-tight">
+                                <span class="block text-[10px] opacity-80">ติดตามเพจ</span>
+                                <span class="font-bold">Ramyeon ssam</span>
+                            </div>
+                        </a>
+                        <a href="https://www.instagram.com/ramyeonssam?igsh=b2kyMXJuNjZweGZw" target="_blank" onclick="trackSocialClick('instagram')" class="flex items-center justify-center space-x-2 bg-instagram text-white py-2.5 px-4 rounded-xl font-medium shadow hover:opacity-90 transition active:scale-95">
+                            <i class="fa-brands fa-instagram text-xl"></i>
+                            <div class="text-left text-xs leading-tight">
+                                <span class="block text-[10px] opacity-80">ติดตาม IG</span>
+                                <span class="font-bold">Ramyeon ssam</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 space-y-3">
+                    <label for="customerName" class="block font-bold text-gray-800 text-base">
+                        <span class="inline-block bg-brand-red text-white text-xs px-2 py-0.5 rounded-full mr-1">ขั้นตอนที่ 1</span>
+                        โปรดระบุชื่อลูกค้า <span class="text-brand-red">*</span>
+                    </label>
+                    <input type="text" id="customerName" placeholder="กรอกชื่อของคุณ (เช่น น้องซัมซัมยัง)" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-red outline-none transition text-base">
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 space-y-4">
+                    <div>
+                        <label class="block font-bold text-gray-800 text-base">
+                            <span class="inline-block bg-brand-red text-white text-xs px-2 py-0.5 rounded-full mr-1">ขั้นตอนที่ 2</span>
+                            อัปโหลดรูปภาพของคุณ <span class="text-brand-red">*</span>
+                        </label>
+                        <p class="text-xs text-gray-500 mt-1">รูปน้องหมา น้องแมว รูปคู่เพื่อน หวานใจ รูปวาดคาแรคเตอร์ตัวเอง หรือรูปอื่นๆ</p>
+                    </div>
+
+                    <div id="uploadBox" class="border-2 border-dashed border-red-200 rounded-2xl p-6 text-center bg-red-50/30 hover:bg-red-50/80 transition cursor-pointer relative" onclick="document.getElementById('fileInput').click()">
+                        <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" class="hidden" onchange="handleFileSelect(event)">
+                        
+                        <div id="uploadPrompt" class="space-y-2 py-4">
+                            <div class="w-16 h-16 bg-red-100 text-brand-red rounded-full flex items-center justify-center mx-auto text-2xl mb-2">
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                            </div>
+                            <p class="font-semibold text-gray-700">แตะเพื่อเลือกรูปภาพ หรือ ถ่ายรูป</p>
+                            <p class="text-xs text-gray-400">รองรับไฟล์ JPG, PNG, WEBP (ขนาดไม่เกิน 10MB)</p>
+                        </div>
+
+                        <div id="previewContainer" class="hidden relative">
+                            <img id="imagePreview" src="" alt="Preview" class="max-h-64 mx-auto rounded-xl shadow-md border border-gray-200 object-contain">
+                            <div class="mt-4 flex justify-center space-x-3">
+                                <button type="button" onclick="event.stopPropagation(); removeSelectedImage();" class="px-3 py-1.5 bg-gray-200 hover:bg-red-100 text-red-600 rounded-lg text-xs font-semibold transition flex items-center">
+                                    <i class="fa-solid fa-trash mr-1"></i> ลบรูป
+                                </button>
+                                <button type="button" onclick="event.stopPropagation(); document.getElementById('fileInput').click();" class="px-3 py-1.5 bg-brand-red text-white rounded-lg text-xs font-semibold hover:bg-brand-redDark transition flex items-center">
+                                    <i class="fa-solid fa-arrows-rotate mr-1"></i> เปลี่ยนรูป
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="progressContainer" class="hidden space-y-1">
+                        <div class="flex justify-between text-xs text-gray-600 font-semibold">
+                            <span>กำลังอัปโหลด...</span>
+                            <span id="progressText">0%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden">
+                            <div id="progressBar" class="bg-brand-red h-2.5 rounded-full transition-all duration-200" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="submitBtn" onclick="submitPhoto()" class="w-full bg-brand-red text-white py-4 rounded-2xl font-bold text-lg shadow-lg hover:bg-brand-redDark active:scale-95 transition duration-150 flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    <span>ส่งรูปภาพ</span>
+                </button>
+            </div>
+
+            <div id="thankYouView" class="hidden bg-white rounded-2xl p-8 shadow-md border border-gray-100 text-center space-y-6 animate-scale-up">
+                <div class="w-24 h-24 mx-auto bg-green-100 rounded-full flex items-center justify-center p-2">
+                    <svg class="w-16 h-16 text-green-500" viewBox="0 0 52 52">
+                        <circle class="text-green-200" stroke-width="4" stroke="currentColor" fill="none" cx="26" cy="26" r="23"/>
+                        <path class="animate-checkmark text-green-500" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor" d="M14 27l7 7 16-16"/>
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-2">ส่งรูปเรียบร้อยแล้ว</h2>
+                    <p class="text-gray-600 text-sm">ขอบคุณที่มาอุดหนุนนะค้าบ</p>
+                </div>
+                <div class="pt-4 border-t border-gray-100 space-y-4">
+                    <p class="text-xs text-gray-500">ติดตามข่าวสารใหม่ๆจากทางร้านได้ที่นี่</p>
+                    <div class="flex justify-center space-x-3">
+                        <a href="https://www.facebook.com/profile.php?id=61592560921596" target="_blank" onclick="trackSocialClick('facebook')" class="px-4 py-2 bg-[#1877F2] text-white rounded-xl text-xs font-semibold flex items-center shadow">
+                            <i class="fa-brands fa-facebook mr-1"></i> Facebook
+                        </a>
+                        <a href="https://www.instagram.com/ramyeonssam?igsh=b2kyMXJuNjZweGZw" target="_blank" onclick="trackSocialClick('instagram')" class="px-4 py-2 bg-instagram text-white rounded-xl text-xs font-semibold flex items-center shadow">
+                            <i class="fa-brands fa-instagram mr-1"></i> Instagram
+                        </a>
+                    </div>
+                    <button onclick="resetCustomerForm()" class="mt-6 inline-flex items-center text-brand-red font-semibold text-sm hover:underline">
+                        <i class="fa-solid fa-arrow-left mr-2"></i> กลับไปหน้าแรก
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. ADMIN SECTION -->
+        <section id="adminView" class="hidden space-y-6">
+            <div id="adminLoginCard" class="bg-white rounded-2xl p-6 shadow-md border border-gray-100 max-w-sm mx-auto space-y-4 animate-scale-up">
+                <div class="text-center space-y-1">
+                    <div class="w-12 h-12 bg-brand-red/10 text-brand-red rounded-full flex items-center justify-center mx-auto text-xl mb-2">
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-800">เข้าสู่ระบบแอดมิน</h2>
+                    <p class="text-xs text-gray-500">สำหรับเจ้าหน้าที่ร้าน Ramyeon ssam เท่านั้น</p>
+                </div>
+                <div class="space-y-3">
+                    <input type="password" id="adminPassword" placeholder="กรอกรหัสผ่าน" class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-red outline-none text-center text-lg">
+                    <button onclick="loginAdmin()" class="w-full bg-brand-red text-white py-2.5 rounded-xl font-bold shadow hover:bg-brand-redDark transition">
+                        เข้าสู่ระบบ
+                    </button>
+                    <p id="loginError" class="text-xs text-red-500 text-center hidden">รหัสผ่านไม่ถูกต้อง!</p>
+                </div>
+            </div>
+
+            <div id="adminDashboard" class="hidden space-y-6">
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 space-y-4">
+                    <div class="flex justify-between items-center border-b pb-3">
+                        <h2 class="font-bold text-gray-800 text-lg flex items-center">
+                            <i class="fa-solid fa-chart-line text-brand-red mr-2"></i> ภาพรวมสถิติ
+                        </h2>
+                        <div class="flex items-center gap-2">
+                            <select id="statFilter" onchange="renderAdminStats()" class="text-xs border border-gray-300 rounded-lg px-2.5 py-1.5 outline-none bg-gray-50 font-medium">
+                                <option value="all">ทั้งหมด</option>
+                                <option value="today">วันนี้</option>
+                                <option value="yesterday">เมื่อวาน</option>
+                                <option value="7days">7 วันล่าสุด</option>
+                            </select>
+                            <button onclick="logoutAdmin()" class="text-xs bg-gray-100 text-gray-600 hover:bg-red-50 hover:text-red-600 px-3 py-1.5 rounded-lg font-semibold transition">
+                                <i class="fa-solid fa-right-from-bracket mr-1"></i> ออกจากระบบ
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-3 text-center">
+                        <div class="bg-red-50 p-3 rounded-xl border border-red-100">
+                            <p class="text-xs text-gray-500 font-medium">ลูกค้าทั้งหมด</p>
+                            <p id="statTotal" class="text-xl font-bold text-brand-red">0</p>
+                        </div>
+                        <div class="bg-blue-50 p-3 rounded-xl border border-blue-100">
+                            <p class="text-xs text-gray-500 font-medium">กด Facebook</p>
+                            <p id="statFB" class="text-xl font-bold text-blue-600">0</p>
+                        </div>
+                        <div class="bg-pink-50 p-3 rounded-xl border border-pink-100">
+                            <p class="text-xs text-gray-500 font-medium">กด Instagram</p>
+                            <p id="statIG" class="text-xl font-bold text-pink-600">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-800 text-white p-4 rounded-2xl shadow space-y-3">
+                    <div class="flex justify-between items-center border-b border-gray-700 pb-2">
+                        <div class="text-xs">
+                            <p class="font-bold text-brand-yellow"><i class="fa-solid fa-link mr-1"></i> เครื่องมือแอดมิน & เชื่อมต่อ</p>
+                            <p class="text-gray-300">Google Drive / Google Sheets / โลโก้</p>
+                        </div>
+                        <button onclick="openSettingsModal()" class="px-3 py-1.5 bg-brand-red hover:bg-brand-redDark text-xs font-semibold rounded-lg transition">
+                            <i class="fa-solid fa-gear mr-1"></i> ตั้งค่าระบบ
+                        </button>
+                    </div>
+
+                    <div class="flex flex-wrap gap-2 pt-1">
+                        <button onclick="openExternalUrl('drive')" class="flex-1 min-w-[120px] bg-gray-700 hover:bg-gray-600 text-xs py-2 px-3 rounded-xl font-semibold flex items-center justify-center space-x-1 transition">
+                            <i class="fa-brands fa-google-drive text-green-400"></i>
+                            <span>Google Drive</span>
+                        </button>
+                        <button onclick="openExternalUrl('sheet')" class="flex-1 min-w-[120px] bg-gray-700 hover:bg-gray-600 text-xs py-2 px-3 rounded-xl font-semibold flex items-center justify-center space-x-1 transition">
+                            <i class="fa-solid fa-table text-emerald-400"></i>
+                            <span>Google Sheets</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-bold text-gray-800 text-base flex items-center">
+                            <i class="fa-solid fa-images text-brand-red mr-2"></i> รายการรูปภาพจากลูกค้า (Real-time)
+                        </h3>
+                        <span id="orderCountBadge" class="bg-brand-red text-white text-xs px-2.5 py-0.5 rounded-full font-bold">0 รายการ</span>
+                    </div>
+                    <div id="ordersList" class="space-y-4"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-white border-t border-gray-200 py-4 text-center text-xs text-gray-500 mt-8">
+        <p>© 2026 Ramyeon ssam - All Rights Reserved</p>
+    </footer>
+
+    <!-- Modals -->
+    <div id="detailModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full overflow-hidden shadow-2xl space-y-4 p-6 animate-scale-up max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="font-bold text-lg text-gray-800">รายละเอียดคำขอ</h3>
+                <button onclick="closeDetailModal()" class="text-gray-400 hover:text-gray-600 text-xl"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="detailContent" class="space-y-3 text-sm"></div>
+            <button onclick="closeDetailModal()" class="w-full bg-gray-200 text-gray-700 py-2 rounded-xl font-semibold">ปิดหน้าต่าง</button>
+        </div>
+    </div>
+
+    <div id="settingsModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 animate-scale-up max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="font-bold text-lg text-gray-800">ตั้งค่าระบบ (Admin Settings)</h3>
+                <button onclick="closeSettingsModal()" class="text-gray-400 hover:text-gray-600 text-xl"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="space-y-3 text-sm">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">Google Apps Script URL (ระบบหลังบ้าน)</label>
+                    <input type="url" id="settingGasUrl" placeholder="https://script.google.com/macros/s/.../exec" class="w-full px-3 py-2 border rounded-xl outline-none focus:ring-1 focus:ring-brand-red">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">ลิงก์ Google Drive Folder</label>
+                    <input type="url" id="settingDriveUrl" placeholder="ระบุลิงก์ Google Drive" class="w-full px-3 py-2 border rounded-xl outline-none focus:ring-1 focus:ring-brand-red">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">ลิงก์ Google Sheets</label>
+                    <input type="url" id="settingSheetUrl" placeholder="ระบุลิงก์ Google Sheets" class="w-full px-3 py-2 border rounded-xl outline-none focus:ring-1 focus:ring-brand-red">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">อัปโหลดไฟล์รูปภาพโลโก้ร้าน</label>
+                    <input type="file" id="settingLogoFile" accept="image/*" onchange="handleLogoUpload(event)" class="w-full text-xs text-gray-500 border rounded-xl p-2">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">หรือระบุ URL โลโก้ร้าน</label>
+                    <input type="url" id="settingLogoUrl" placeholder="https://example.com/logo.png" class="w-full px-3 py-2 border rounded-xl outline-none focus:ring-1 focus:ring-brand-red">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">เปลี่ยนรหัสผ่านแอดมิน</label>
+                    <input type="password" id="settingNewPass" placeholder="รหัสผ่านใหม่" class="w-full px-3 py-2 border rounded-xl outline-none focus:ring-1 focus:ring-brand-red">
+                </div>
+            </div>
+            <div class="pt-2 flex space-x-2">
+                <button onclick="saveAdminSettings()" class="flex-1 bg-brand-red text-white py-2.5 rounded-xl font-bold hover:bg-brand-redDark transition">
+                    บันทึกการเปลี่ยนแปลง
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS APP LOGIC -->
+    <script>
+        let submissions = JSON.parse(localStorage.getItem('ramyeon_submissions') || '[]');
+        let adminSettings = JSON.parse(localStorage.getItem('ramyeon_settings') || JSON.stringify({
+            password: 'admin123',
+            gasUrl: '',
+            driveUrl: '',
+            sheetUrl: '',
+            logoUrl: ''
+        }));
+        
+        let selectedFileData = null;
+        let socialClicksState = { facebook: null, instagram: null };
+        let isAdminLoggedIn = false;
+        let tempLogoBase64 = null;
+        let lastOrderCount = 0;
+
+        const firebaseConfig = {
+            databaseURL: "https://ramyeon-ssam-default-rtdb.asia-southeast1.firebasedatabase.app"
+        };
+        let db = null;
+        try {
+            firebase.initializeApp(firebaseConfig);
+            db = firebase.database();
+        } catch(e) {}
+
+        window.addEventListener('DOMContentLoaded', () => {
+            applyLogoSettings();
+            requestNotificationPermission();
+            listenRealtimeOrders();
+            checkAdminSession(); // ตรวจสอบ Session เมื่อเปิด/รีเฟรชหน้าจอ
+        });
+
+        function checkAdminSession() {
+            const session = localStorage.getItem('ramyeon_admin_logged_in');
+            if (session === 'true') {
+                isAdminLoggedIn = true;
+            }
+        }
+
+        function requestNotificationPermission() {
+            if ("Notification" in window && Notification.permission !== "granted" && Notification.permission !== "denied") {
+                Notification.requestPermission();
+            }
+        }
+
+        function applyLogoSettings() {
+            const logoText = document.getElementById('logoText');
+            const logoImg = document.getElementById('logoImg');
+
+            if (adminSettings.logoUrl) {
+                logoImg.src = adminSettings.logoUrl;
+                logoImg.classList.remove('hidden');
+                logoText.classList.add('hidden');
+            } else {
+                logoImg.classList.add('hidden');
+                logoText.classList.remove('hidden');
+            }
+        }
+
+        function switchView(viewName) {
+            const customerView = document.getElementById('customerView');
+            const adminView = document.getElementById('adminView');
+            const navCustomerBtn = document.getElementById('navCustomerBtn');
+            const navAdminBtn = document.getElementById('navAdminBtn');
+
+            if (viewName === 'customer') {
+                customerView.classList.remove('hidden');
+                adminView.classList.add('hidden');
+                navCustomerBtn.className = "px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold bg-white text-brand-red shadow";
+                navAdminBtn.className = "px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold bg-brand-redDark text-white hover:bg-black transition";
+            } else {
+                customerView.classList.add('hidden');
+                adminView.classList.remove('hidden');
+                navAdminBtn.className = "px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold bg-white text-brand-red shadow";
+                navCustomerBtn.className = "px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold bg-brand-redDark text-white hover:bg-black transition";
+
+                if (isAdminLoggedIn) {
+                    document.getElementById('adminLoginCard').classList.add('hidden');
+                    document.getElementById('adminDashboard').classList.remove('hidden');
+                    renderAdminDashboard();
+                } else {
+                    document.getElementById('adminLoginCard').classList.remove('hidden');
+                    document.getElementById('adminDashboard').classList.add('hidden');
+                }
+            }
+        }
+
+        function trackSocialClick(platform) {
+            const now = new Date().toISOString();
+            if (platform === 'facebook') socialClicksState.facebook = now;
+            else if (platform === 'instagram') socialClicksState.instagram = now;
+        }
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
+            if (!validTypes.includes(file.type)) {
+                alert('กรุณาเลือกไฟล์ภาพประเภท JPG, PNG หรือ WEBP เท่านั้น');
+                return;
+            }
+
+            if (file.size > 10 * 1024 * 1024) {
+                alert('ไฟล์ภาพมีขนาดใหญ่เกินไป (กรุณาเลือกไฟล์ขนาดไม่เกิน 10MB)');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                selectedFileData = {
+                    name: generateSecureFileName(file.name),
+                    type: file.type,
+                    dataUrl: e.target.result
+                };
+                document.getElementById('imagePreview').src = e.target.result;
+                document.getElementById('uploadPrompt').classList.add('hidden');
+                document.getElementById('previewContainer').classList.remove('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function removeSelectedImage() {
+            selectedFileData = null;
+            document.getElementById('fileInput').value = '';
+            document.getElementById('imagePreview').src = '';
+            document.getElementById('uploadPrompt').classList.remove('hidden');
+            document.getElementById('previewContainer').classList.add('hidden');
+        }
+
+        function generateSecureFileName(originalName) {
+            const ext = originalName.split('.').pop();
+            return `ramyeon_${Date.now()}_${Math.floor(Math.random() * 10000)}.${ext}`;
+        }
+
+        async function submitPhoto() {
+            const nameInput = document.getElementById('customerName').value.trim();
+            if (!nameInput) {
+                alert('กรุณากรอกชื่อของคุณก่อนส่งรูปภาพ');
+                document.getElementById('customerName').focus();
+                return;
+            }
+            if (!selectedFileData) {
+                alert('กรุณาเลือกรูปภาพที่ต้องการพิมพ์');
+                return;
+            }
+
+            const submitBtn = document.getElementById('submitBtn');
+            const progressContainer = document.getElementById('progressContainer');
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i><span>กำลังส่งรูปภาพ…</span>`;
+            progressContainer.classList.remove('hidden');
+
+            let progress = 0;
+            const uploadInterval = setInterval(() => {
+                progress += 20;
+                progressBar.style.width = `${progress}%`;
+                progressText.innerText = `${progress}%`;
+
+                if (progress >= 100) {
+                    clearInterval(uploadInterval);
+                    finishSubmission(nameInput);
+                }
+            }, 100);
+        }
+
+        async function finishSubmission(nameInput) {
+            const now = new Date();
+            const newSubmission = {
+                id: 'ORD-' + Date.now(),
+                customerName: nameInput,
+                imageData: selectedFileData.dataUrl,
+                fileName: selectedFileData.name,
+                date: now.toLocaleDateString('th-TH'),
+                time: now.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' }),
+                rawTimestamp: now.getTime(),
+                uploadTimestamp: now.toISOString(),
+                clickedFacebook: socialClicksState.facebook,
+                clickedInstagram: socialClicksState.instagram,
+                deviceInfo: navigator.userAgent.includes('Mobile') ? 'Mobile' : 'Desktop'
+            };
+
+            if (db) {
+                db.ref('orders/' + newSubmission.id).set(newSubmission);
+            }
+
+            if (adminSettings.gasUrl) {
+                fetch(adminSettings.gasUrl, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        customerName: nameInput,
+                        fileName: selectedFileData.name,
+                        imageData: selectedFileData.dataUrl
+                    })
+                });
+            }
+
+            document.getElementById('customerFormView').classList.add('hidden');
+            document.getElementById('thankYouView').classList.remove('hidden');
+
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = `<i class="fa-solid fa-paper-plane"></i><span>ส่งรูปภาพ</span>`;
+            document.getElementById('progressContainer').classList.add('hidden');
+        }
+
+        function resetCustomerForm() {
+            document.getElementById('customerName').value = '';
+            removeSelectedImage();
+            socialClicksState = { facebook: null, instagram: null };
+            document.getElementById('thankYouView').classList.add('hidden');
+            document.getElementById('customerFormView').classList.remove('hidden');
+        }
+
+        function listenRealtimeOrders() {
+            if (!db) return;
+            db.ref('orders').on('value', (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    const list = Object.values(data).sort((a,b) => b.rawTimestamp - a.rawTimestamp);
+                    if (list.length > lastOrderCount && lastOrderCount !== 0 && isAdminLoggedIn) {
+                        triggerAdminAlert(list[0].customerName);
+                    }
+                    lastOrderCount = list.length;
+                    submissions = list;
+                    localStorage.setItem('ramyeon_submissions', JSON.stringify(submissions));
+
+                    if (isAdminLoggedIn) {
+                        renderAdminDashboard();
+                    }
+                } else {
+                    submissions = [];
+                    if (isAdminLoggedIn) renderAdminDashboard();
+                }
+            });
+        }
+
+        function triggerAdminAlert(customerName) {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(440, ctx.currentTime);
+                osc.frequency.setValueAtTime(880, ctx.currentTime + 0.2);
+                osc.connect(ctx.destination);
+                osc.start();
+                osc.stop(ctx.currentTime + 0.5);
+            } catch (e) { }
+
+            if ("vibrate" in navigator) {
+                navigator.vibrate([200, 100, 200]);
+            }
+
+            if ("Notification" in window && Notification.permission === "granted") {
+                new Notification("มีลูกค้าส่งรูปใหม่เข้ามา!", {
+                    body: `ลูกค้า: ${customerName}`,
+                    icon: adminSettings.logoUrl || ''
+                });
+            }
+        }
+
+        function loginAdmin() {
+            const pass = document.getElementById('adminPassword').value;
+            if (pass === adminSettings.password) {
+                isAdminLoggedIn = true;
+                localStorage.setItem('ramyeon_admin_logged_in', 'true'); // บันทึก Session กันรีเฟรชแล้วหลุด
+                document.getElementById('adminLoginCard').classList.add('hidden');
+                document.getElementById('adminDashboard').classList.remove('hidden');
+                document.getElementById('loginError').classList.add('hidden');
+                document.getElementById('adminPassword').value = '';
+                renderAdminDashboard();
+            } else {
+                document.getElementById('loginError').classList.remove('hidden');
+            }
+        }
+
+        function logoutAdmin() {
+            isAdminLoggedIn = false;
+            localStorage.removeItem('ramyeon_admin_logged_in'); // ลบ Session เมื่อกดออกจากระบบ
+            document.getElementById('adminLoginCard').classList.remove('hidden');
+            document.getElementById('adminDashboard').classList.add('hidden');
+        }
+
+        function renderAdminDashboard() {
+            renderAdminStats();
+            renderOrdersList();
+        }
+
+        function renderAdminStats() {
+            const filter = document.getElementById('statFilter').value;
+            const now = new Date();
+
+            let filtered = submissions.filter(item => {
+                const itemDate = new Date(item.rawTimestamp);
+                if (filter === 'today') return itemDate.toDateString() === now.toDateString();
+                if (filter === 'yesterday') {
+                    const yday = new Date(now);
+                    yday.setDate(now.getDate() - 1);
+                    return itemDate.toDateString() === yday.toDateString();
+                }
+                if (filter === '7days') {
+                    return (now - itemDate) / (1000 * 60 * 60 * 24) <= 7;
+                }
+                return true;
+            });
+
+            document.getElementById('statTotal').innerText = filtered.length;
+            document.getElementById('statFB').innerText = filtered.filter(i => i.clickedFacebook).length;
+            document.getElementById('statIG').innerText = filtered.filter(i => i.clickedInstagram).length;
+        }
+
+        function renderOrdersList() {
+            const container = document.getElementById('ordersList');
+            document.getElementById('orderCountBadge').innerText = `${submissions.length} รายการ`;
+
+            if (submissions.length === 0) {
+                container.innerHTML = `
+                    <div class="bg-white rounded-2xl p-8 text-center text-gray-400 space-y-2">
+                        <i class="fa-solid fa-inbox text-4xl"></i>
+                        <p>ยังไม่มีรายการส่งรูปจากลูกค้า</p>
+                    </div>`;
+                return;
+            }
+
+            container.innerHTML = submissions.map(item => `
+                <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex flex-col sm:flex-row items-center gap-4">
+                    <div class="w-full sm:w-28 h-36 bg-gray-100 rounded-xl overflow-hidden flex-shrink-0 relative group">
+                        <img src="${item.imageData}" alt="${escapeHtml(item.customerName)}" class="w-full h-full object-cover">
+                    </div>
+
+                    <div class="flex-grow w-full space-y-2 text-left">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h4 class="font-bold text-gray-800 text-base">${escapeHtml(item.customerName)}</h4>
+                                <p class="text-xs text-gray-400">${item.date} เวลา ${item.time} น.</p>
+                            </div>
+                            <button onclick="openDetailModal('${item.id}')" class="text-xs bg-gray-100 text-gray-700 hover:bg-gray-200 px-2.5 py-1 rounded-lg font-medium">
+                                รายละเอียด
+                            </button>
+                        </div>
+
+                        <div class="flex items-center space-x-2 text-xs">
+                            <span class="px-2 py-0.5 rounded-md ${item.clickedFacebook ? 'bg-blue-100 text-blue-700 font-semibold' : 'bg-gray-100 text-gray-400'}">
+                                ${item.clickedFacebook ? 'FB กดแล้ว' : 'FB ยังไม่กด'}
+                            </span>
+                            <span class="px-2 py-0.5 rounded-md ${item.clickedInstagram ? 'bg-pink-100 text-pink-700 font-semibold' : 'bg-gray-100 text-gray-400'}">
+                                ${item.clickedInstagram ? 'IG กดแล้ว' : 'IG ยังไม่กด'}
+                            </span>
+                        </div>
+
+                        <div class="flex items-center space-x-2 pt-2 border-t border-gray-50">
+                            <a href="${item.imageData}" download="${item.fileName}" class="flex-1 bg-brand-red text-white text-xs py-2 rounded-xl font-semibold text-center hover:bg-brand-redDark transition flex items-center justify-center space-x-1">
+                                <i class="fa-solid fa-download"></i>
+                                <span>ดาวน์โหลด</span>
+                            </a>
+                            <button onclick="sharePhoto('${escapeHtml(item.customerName)}', '${item.id}')" class="flex-1 bg-gray-800 text-white text-xs py-2 rounded-xl font-semibold text-center hover:bg-black transition flex items-center justify-center space-x-1">
+                                <i class="fa-solid fa-share-nodes"></i>
+                                <span>↗ แชร์รูป</span>
+                            </button>
+                            <button onclick="deleteSubmission('${item.id}')" class="px-3 py-2 text-gray-400 hover:text-red-500 rounded-xl transition">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openExternalUrl(type) {
+            if (type === 'drive' && adminSettings.driveUrl) window.open(adminSettings.driveUrl, '_blank');
+            else if (type === 'sheet' && adminSettings.sheetUrl) window.open(adminSettings.sheetUrl, '_blank');
+            else alert('กรุณาตั้งค่าลิงก์ใน "ตั้งค่าระบบ" ก่อนใช้งาน');
+        }
+
+        async function sharePhoto(customerName, id) {
+            const item = submissions.find(s => s.id === id);
+            if (!item) return;
+
+            if (navigator.share) {
+                try {
+                    const blob = await (await fetch(item.imageData)).blob();
+                    const file = new File([blob], item.fileName, { type: item.imageData.split(';')[0].split(':')[1] });
+                    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                        await navigator.share({
+                            title: `รูปภาพของ ${customerName}`,
+                            text: `รูปพรินต์ร้าน Ramyeon ssam จากลูกค้า: ${customerName}`,
+                            files: [file]
+                        });
+                        return;
+                    }
+                } catch (e) { }
+            }
+            const a = document.createElement('a');
+            a.href = item.imageData;
+            a.download = item.fileName;
+            a.click();
+        }
+
+        function deleteSubmission(id) {
+            if (confirm('คุณต้องการลบรายการนี้ใช่หรือไม่?')) {
+                submissions = submissions.filter(s => s.id !== id);
+                localStorage.setItem('ramyeon_submissions', JSON.stringify(submissions));
+                if (db) db.ref('orders/' + id).remove();
+                renderAdminDashboard();
+            }
+        }
+
+        function openDetailModal(id) {
+            const item = submissions.find(s => s.id === id);
+            if (!item) return;
+            const formatTime = (ts) => ts ? new Date(ts).toLocaleTimeString('th-TH') : 'ไม่ได้กด';
+
+            document.getElementById('detailContent').innerHTML = `
+                <div class="text-center mb-3">
+                    <img src="${item.imageData}" class="max-h-48 mx-auto rounded-xl shadow border">
+                </div>
+                <div class="space-y-2 border-t pt-2">
+                    <p><strong>ชื่อลูกค้า:</strong> ${escapeHtml(item.customerName)}</p>
+                    <p><strong>รหัสรายการ:</strong> ${item.id}</p>
+                    <p><strong>วันที่ส่ง:</strong> ${item.date} (${item.time} น.)</p>
+                    <p><strong>เวลากด Facebook:</strong> ${formatTime(item.clickedFacebook)}</p>
+                    <p><strong>เวลากด Instagram:</strong> ${formatTime(item.clickedInstagram)}</p>
+                    <p><strong>อุปกรณ์:</strong> ${item.deviceInfo}</p>
+                </div>
+            `;
+            document.getElementById('detailModal').classList.remove('hidden');
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detailModal').classList.add('hidden');
+        }
+
+        function handleLogoUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) { tempLogoBase64 = e.target.result; };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function openSettingsModal() {
+            tempLogoBase64 = null;
+            document.getElementById('settingGasUrl').value = adminSettings.gasUrl || '';
+            document.getElementById('settingDriveUrl').value = adminSettings.driveUrl || '';
+            document.getElementById('settingSheetUrl').value = adminSettings.sheetUrl || '';
+            document.getElementById('settingLogoUrl').value = adminSettings.logoUrl || '';
+            document.getElementById('settingLogoFile').value = '';
+            document.getElementById('settingNewPass').value = '';
+            document.getElementById('settingsModal').classList.remove('hidden');
+        }
+
+        function closeSettingsModal() {
+            document.getElementById('settingsModal').classList.add('hidden');
+        }
+
+        function saveAdminSettings() {
+            adminSettings.gasUrl = document.getElementById('settingGasUrl').value.trim();
+            adminSettings.driveUrl = document.getElementById('settingDriveUrl').value.trim();
+            adminSettings.sheetUrl = document.getElementById('settingSheetUrl').value.trim();
+            const logoUrl = document.getElementById('settingLogoUrl').value.trim();
+            const newPass = document.getElementById('settingNewPass').value.trim();
+
+            if (tempLogoBase64) adminSettings.logoUrl = tempLogoBase64;
+            else if (logoUrl) adminSettings.logoUrl = logoUrl;
+            if (newPass) adminSettings.password = newPass;
+
+            localStorage.setItem('ramyeon_settings', JSON.stringify(adminSettings));
+            applyLogoSettings();
+            closeSettingsModal();
+            alert('บันทึกการตั้งค่าเรียบร้อยแล้ว!');
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+</html>
