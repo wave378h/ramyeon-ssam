@@ -126,7 +126,7 @@
                             <span class="inline-block bg-brand-red text-white text-xs px-2 py-0.5 rounded-full mr-1">ขั้นตอนที่ 2</span>
                             อัปโหลดรูปภาพของคุณ <span class="text-brand-red">*</span>
                         </label>
-                        <p class="text-xs text-gray-500 mt-1">รูปน้องหมา น้องแมว รูปคู่เพื่อน หวานใจ หรือรูปอื่นๆ</p>
+                        <p class="text-xs text-gray-500 mt-1">รูปน้องหมา น้องแมว รูปคู่เพื่อน หวานใจ รูปวาดคาแรคเตอร์ตัวเอง หรือรูปอื่นๆ</p>
                     </div>
 
                     <div id="uploadBox" class="border-2 border-dashed border-red-200 rounded-2xl p-6 text-center bg-red-50/30 hover:bg-red-50/80 transition cursor-pointer relative" onclick="document.getElementById('fileInput').click()">
@@ -155,7 +155,7 @@
 
                     <div id="progressContainer" class="hidden space-y-1">
                         <div class="flex justify-between text-xs text-gray-600 font-semibold">
-                            <span>กำลังอัปโหลดไปยัง Google Drive...</span>
+                            <span>กำลังส่งรูปภาพ…</span>
                             <span id="progressText">0%</span>
                         </div>
                         <div class="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden">
@@ -180,10 +180,20 @@
                 </div>
                 <div>
                     <h2 class="text-2xl font-bold text-gray-800 mb-2">ส่งรูปเรียบร้อยแล้ว</h2>
-                    <p class="text-gray-600 text-sm">ระบบได้บันทึกรูปภาพลง Google Drive และ Google Sheets เรียบร้อยครับ</p>
+                    <p class="text-gray-600 text-sm">ขอบคุณที่มาอุดหนุนนะค้าบ</p>
                 </div>
                 <div class="pt-4 border-t border-gray-100 space-y-4">
-                    <button onclick="resetCustomerForm()" class="mt-2 inline-flex items-center text-brand-red font-semibold text-sm hover:underline">
+                    <p class="text-xs text-gray-500 font-medium">ติดตามข่าวสารใหม่ๆจากทางร้านได้ที่นี่</p>
+                    <div class="flex justify-center space-x-2">
+                        <a href="https://www.facebook.com/profile.php?id=61592560921596" target="_blank" onclick="trackSocialClick('facebook')" class="px-3 py-1.5 bg-[#1877F2] text-white rounded-lg text-xs font-semibold flex items-center shadow space-x-1">
+                            <i class="fa-brands fa-facebook"></i> <span>Facebook</span>
+                        </a>
+                        <a href="https://www.instagram.com/ramyeonssam?igsh=b2kyMXJuNjZweGZw" target="_blank" onclick="trackSocialClick('instagram')" class="px-3 py-1.5 bg-instagram text-white rounded-lg text-xs font-semibold flex items-center shadow space-x-1">
+                            <i class="fa-brands fa-instagram"></i> <span>Instagram</span>
+                        </a>
+                    </div>
+
+                    <button onclick="resetCustomerForm()" class="mt-4 inline-flex items-center text-brand-red font-semibold text-sm hover:underline">
                         <i class="fa-solid fa-arrow-left mr-2"></i> ส่งรูปเพิ่มอีกครั้ง
                     </button>
                 </div>
@@ -194,6 +204,9 @@
         <section id="adminView" class="hidden space-y-6">
             <div id="adminLoginCard" class="bg-white rounded-2xl p-6 shadow-md border border-gray-100 max-w-sm mx-auto space-y-4 animate-scale-up">
                 <div class="text-center space-y-2">
+                    <div class="w-16 h-16 mx-auto rounded-full border-2 border-brand-yellow shadow overflow-hidden">
+                        <img id="loginLogoImg" src="https://lh3.googleusercontent.com/d/1avrpH8b5iRnkjaL7LYaksy7vf1P2h2H7" alt="Logo" class="w-full h-full object-cover">
+                    </div>
                     <h2 class="text-xl font-bold text-gray-800">เข้าสู่ระบบแอดมิน</h2>
                     <p class="text-xs text-gray-500">สำหรับเจ้าหน้าที่ร้าน Ramyeon ssam เท่านั้น</p>
                 </div>
@@ -202,7 +215,7 @@
                     <button onclick="loginAdmin()" class="w-full bg-brand-red text-white py-2.5 rounded-xl font-bold shadow hover:bg-brand-redDark transition">
                         เข้าสู่ระบบ
                     </button>
-                    <p id="loginError" class="text-xs text-red-500 text-center hidden">รหัสผ่านไม่ถูกต้อง!</p>
+                    <p id="loginError" class="text-xs text-red-500 text-center hidden font-semibold">ว๊ายตายแล๊ว…รหัสผ่านไม่ถูกต้อง!</p>
                 </div>
             </div>
 
@@ -240,7 +253,7 @@
                     <div class="flex justify-between items-center border-b border-gray-700 pb-2">
                         <div class="text-xs">
                             <p class="font-bold text-brand-yellow"><i class="fa-solid fa-link mr-1"></i> เครื่องมือแอดมิน & เชื่อมต่อ</p>
-                            <p class="text-gray-300">Google Drive / Google Sheets / ตั้งค่าระบบ</p>
+                            <p class="text-gray-300">Google Drive / Google Sheets / ตั้งค่าเสียงแจ้งเตือน</p>
                         </div>
                         <button onclick="openSettingsModal()" class="px-3 py-1.5 bg-brand-red hover:bg-brand-redDark text-xs font-semibold rounded-lg transition">
                             <i class="fa-solid fa-gear mr-1"></i> ตั้งค่าระบบ
@@ -281,6 +294,18 @@
         <p>© 2026 Ramyeon ssam - All Rights Reserved</p>
     </footer>
 
+    <!-- Order Detail Modal -->
+    <div id="detailModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full overflow-hidden shadow-2xl space-y-4 p-6 animate-scale-up max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="font-bold text-lg text-gray-800">รายละเอียดคำขอ</h3>
+                <button onclick="closeDetailModal()" class="text-gray-400 hover:text-gray-600 text-xl"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="detailContent" class="space-y-3 text-sm"></div>
+            <button onclick="closeDetailModal()" class="w-full bg-gray-200 text-gray-700 py-2 rounded-xl font-semibold">ปิดหน้าต่าง</button>
+        </div>
+    </div>
+
     <!-- Admin Settings Modal -->
     <div id="settingsModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 animate-scale-up max-h-[90vh] overflow-y-auto">
@@ -288,6 +313,7 @@
                 <h3 class="font-bold text-lg text-gray-800">ตั้งค่าระบบ (Admin Settings)</h3>
                 <button onclick="closeSettingsModal()" class="text-gray-400 hover:text-gray-600 text-xl"><i class="fa-solid fa-xmark"></i></button>
             </div>
+
             <div class="space-y-4 text-sm">
                 <div>
                     <label class="block text-xs font-semibold text-gray-700 mb-1">ลิงก์ Google Drive Folder</label>
@@ -298,14 +324,74 @@
                     <input type="url" id="settingSheetUrl" placeholder="https://docs.google.com/spreadsheets/..." class="w-full px-3 py-2 border rounded-xl outline-none focus:ring-1 focus:ring-brand-red">
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-gray-700 mb-1">URL โลโก้ร้าน</label>
-                    <input type="url" id="settingLogoUrl" placeholder="https://example.com/logo.png" class="w-full px-3 py-2 border rounded-xl outline-none focus:ring-1 focus:ring-brand-red">
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">อัปโหลดรูปโลโก้ร้าน (เปลี่ยนทันทีทุกเครื่อง)</label>
+                    <input type="file" id="settingLogoFile" accept="image/*" onchange="handleLogoUpload(event)" class="w-full text-xs text-gray-500 border rounded-xl p-2 bg-white">
                 </div>
+
+                <!-- Sound & Vibration Alert Customization Section -->
+                <div class="bg-gray-50 p-3 rounded-xl border border-gray-200 space-y-3">
+                    <div class="flex justify-between items-center border-b pb-2">
+                        <h4 class="font-bold text-gray-800 text-xs uppercase tracking-wider text-brand-red">ตั้งค่าเสียง & ระบบสั่นแจ้งเตือน</h4>
+                        <button type="button" onclick="testCurrentNotificationSetting()" class="px-3 py-1.5 bg-brand-red hover:bg-brand-redDark text-white text-xs rounded-xl font-semibold shadow transition">
+                            <i class="fa-solid fa-volume-high mr-1"></i> ทดสอบ
+                        </button>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">เลือกรูปแบบเสียงแจ้งเตือน</label>
+                        <select id="settingAlertMode" onchange="handleAlertModeChange()" class="w-full px-3 py-2 border rounded-xl outline-none bg-white text-xs font-semibold">
+                            <option value="ringtone">เสียงริงโทนระบบ</option>
+                            <option value="custom">อัปโหลดไฟล์เสียงส่วนตัว</option>
+                            <option value="siri">เสียงสิริพูดข้อความ</option>
+                            <option value="silent">ปิดเสียงทั้งหมด (เงียบ)</option>
+                        </select>
+                    </div>
+
+                    <div id="modeRingtoneContainer" class="space-y-1">
+                        <label class="block text-xs text-gray-600 mb-1">เลือกเสียงริงโทน (เลือกแล้วมีเสียงทันที)</label>
+                        <select id="settingRingtone" onchange="onRingtoneDropdownChange(this.value)" class="w-full px-3 py-2 border rounded-xl outline-none bg-white text-xs">
+                            <option value="bell">กระดิ่งร้านค้า (Bell Chime)</option>
+                            <option value="marimba">มาริมบาใสๆ (Marimba)</option>
+                            <option value="chime">กระดิ่งแก้ว (Crystal Chime)</option>
+                            <option value="radar">เรดาร์เตือนภัย (Radar Alert)</option>
+                            <option value="arcade">เกมอาร์เคด (Arcade Coin)</option>
+                            <option value="gong">ฆ้องจีนโบราณ (Gong Sound)</option>
+                            <option value="harp">พิณสวรรค์ (Harp Glissando)</option>
+                            <option value="whistle">เสียงนกหวีด (Whistle Alert)</option>
+                            <option value="piano">เปียโนสั้น (Piano Chord)</option>
+                            <option value="trumpet">แตรต้อนรับ (Fanfare Trumpet)</option>
+                            <option value="xylophone">ระนาดใส (Xylophone Scale)</option>
+                            <option value="bubble">เสียงฟองน้ำ (Bubble Pop)</option>
+                        </select>
+                    </div>
+
+                    <div id="modeCustomContainer" class="hidden space-y-1">
+                        <label class="block text-xs text-gray-600 mb-1">อัปโหลดไฟล์เสียง (.mp3 / .wav)</label>
+                        <input type="file" id="settingAudioFile" accept="audio/*" class="w-full text-xs text-gray-500 border rounded-xl p-1.5 bg-white">
+                    </div>
+
+                    <div id="modeSiriContainer" class="hidden space-y-2">
+                        <label class="block text-xs text-gray-600 mb-1">ข้อความเสียงสิริ (ใช้ <code class="bg-gray-200 px-1 rounded">{name}</code> แทนชื่อลูกค้า)</label>
+                        <input type="text" id="settingSiriText" value="มีออเดอร์ใหม่จากคุณ {name} ครับ" class="w-full px-3 py-2 border rounded-xl outline-none bg-white text-xs">
+                    </div>
+
+                    <div class="pt-2 border-t space-y-1">
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">รูปแบบระบบสั่น</label>
+                        <select id="settingVibrateMode" class="w-full px-3 py-2 border rounded-xl outline-none bg-white text-xs font-semibold">
+                            <option value="pattern1">สั่นเป็นจังหวะเตือน (Standard Pulse)</option>
+                            <option value="pattern2">สั่นถี่รัว (Rapid Buzz)</option>
+                            <option value="pattern3">สั่นยาวต่อเนื่อง (Long Heavy Vibration)</option>
+                            <option value="off">ปิดระบบสั่น</option>
+                        </select>
+                    </div>
+                </div>
+
                 <div>
                     <label class="block text-xs font-semibold text-gray-700 mb-1">เปลี่ยนรหัสผ่านแอดมิน</label>
                     <input type="password" id="settingNewPass" placeholder="รหัสผ่านใหม่" class="w-full px-3 py-2 border rounded-xl outline-none focus:ring-1 focus:ring-brand-red">
                 </div>
             </div>
+
             <div class="pt-2 flex space-x-2">
                 <button onclick="saveAdminSettings()" class="flex-1 bg-brand-red text-white py-2.5 rounded-xl font-bold hover:bg-brand-redDark transition">
                     บันทึกการเปลี่ยนแปลง
@@ -316,24 +402,35 @@
 
     <!-- Script สำหรับระบบทำงานฝั่ง Frontend และเชื่อมต่อ Google Apps Script -->
     <script>
-        // ลิงก์ Google Apps Script Web App ของคุณ
         const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxq9d0poGulrS7A8QQd8I8LGGc_78Tz43X1QnnWawam4yEC8B9AnSjufuS2kj09O3TF8g/exec";
 
         let submissions = [];
         let adminSettings = JSON.parse(localStorage.getItem('ramyeon_settings') || JSON.stringify({
             password: 'admin123',
-            driveUrl: '',
-            sheetUrl: '',
-            logoUrl: 'https://lh3.googleusercontent.com/d/1avrpH8b5iRnkjaL7LYaksy7vf1P2h2H7'
+            driveUrl: 'https://drive.google.com/drive/folders/1wzP80xRkjaL7LYaksy7vf1P2h2H7',
+            sheetUrl: 'https://docs.google.com/spreadsheets/d/1_Spreadsheet_Real_Link',
+            logoUrl: 'https://lh3.googleusercontent.com/d/1avrpH8b5iRnkjaL7LYaksy7vf1P2h2H7',
+            alertMode: 'ringtone',
+            ringtone: 'bell',
+            customAudioBase64: '',
+            siriText: 'มีออเดอร์ใหม่จากคุณ {name} ครับ',
+            vibrateMode: 'pattern1'
         }));
         
         let selectedFileData = null;
         let socialClicksState = { facebook: null, instagram: null };
         let isAdminLoggedIn = sessionStorage.getItem('ramyeon_admin_logged') === 'true';
+        let tempCustomAudioBase64 = null;
+        let tempLogoBase64 = null;
+        let lastSubmissionCount = 0;
 
         window.addEventListener('DOMContentLoaded', () => {
             applyLogoSettings();
+            requestNotificationPermission();
             fetchSubmissionsFromCloud();
+            
+            setInterval(fetchSubmissionsFromCloud, 4000);
+
             if (isAdminLoggedIn) {
                 switchView('admin');
             } else {
@@ -341,12 +438,49 @@
             }
         });
 
+        function requestNotificationPermission() {
+            if ("Notification" in window && Notification.permission !== "granted" && Notification.permission !== "denied") {
+                Notification.requestPermission();
+            }
+        }
+
+        function formatDriveImageUrl(url) {
+            if (!url) return 'https://via.placeholder.com/150?text=No+Image';
+            if (url.includes('drive.google.com')) {
+                let fileId = '';
+                if (url.includes('/d/')) {
+                    fileId = url.split('/d/')[1].split('/')[0];
+                } else if (url.includes('id=')) {
+                    fileId = url.split('id=')[1].split('&')[0];
+                }
+                if (fileId) {
+                    return `https://lh3.googleusercontent.com/d/${fileId}`;
+                }
+            }
+            return url;
+        }
+
         function fetchSubmissionsFromCloud() {
             fetch(APPS_SCRIPT_URL + "?action=getSubmissions")
                 .then(res => res.json())
                 .then(data => {
                     if (data.status === 'success') {
-                        submissions = data.submissions;
+                        const cloudSubmissions = data.submissions;
+                        
+                        if (data.settings && data.settings.logoUrl) {
+                            adminSettings.logoUrl = data.settings.logoUrl;
+                            localStorage.setItem('ramyeon_settings', JSON.stringify(adminSettings));
+                            applyLogoSettings();
+                        }
+
+                        if (lastSubmissionCount > 0 && cloudSubmissions.length > lastSubmissionCount) {
+                            const latest = cloudSubmissions[0];
+                            triggerAdminAlert(latest.customerName || 'น้องซัมซัมยัง');
+                        }
+                        
+                        lastSubmissionCount = cloudSubmissions.length;
+                        submissions = cloudSubmissions;
+                        
                         if (isAdminLoggedIn) {
                             renderAdminDashboard();
                         }
@@ -358,9 +492,11 @@
         function applyLogoSettings() {
             const logoImg = document.getElementById('logoImg');
             const bannerLogoImg = document.getElementById('bannerLogoImg');
+            const loginLogoImg = document.getElementById('loginLogoImg');
             const targetLogo = adminSettings.logoUrl || 'https://lh3.googleusercontent.com/d/1avrpH8b5iRnkjaL7LYaksy7vf1P2h2H7';
             if (logoImg) logoImg.src = targetLogo;
             if (bannerLogoImg) bannerLogoImg.src = targetLogo;
+            if (loginLogoImg) loginLogoImg.src = targetLogo;
         }
 
         function handleHeaderAction() {
@@ -454,10 +590,10 @@
             const progressText = document.getElementById('progressText');
 
             submitBtn.disabled = true;
-            submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i><span>กำลังอัปโหลดรูปภาพ…</span>`;
+            submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i><span>กำลังส่งรูปภาพ…</span>`;
             progressContainer.classList.remove('hidden');
 
-            let progress = 20;
+            let progress = 50;
             progressBar.style.width = `${progress}%`;
             progressText.innerText = `${progress}%`;
 
@@ -470,10 +606,6 @@
                 clickedInstagram: socialClicksState.instagram,
                 deviceInfo: navigator.userAgent.includes('Mobile') ? 'มือถือ' : 'คอมพิวเตอร์'
             };
-
-            progress = 60;
-            progressBar.style.width = `${progress}%`;
-            progressText.innerText = `${progress}%`;
 
             fetch(APPS_SCRIPT_URL, {
                 method: 'POST',
@@ -493,7 +625,7 @@
                         document.getElementById('customerFormView').classList.add('hidden');
                         document.getElementById('thankYouView').classList.remove('hidden');
                         fetchSubmissionsFromCloud();
-                    }, 500);
+                    }, 150);
                 } else {
                     alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล: ' + data.message);
                     submitBtn.disabled = false;
@@ -516,6 +648,128 @@
             socialClicksState = { facebook: null, instagram: null };
             document.getElementById('thankYouView').classList.add('hidden');
             document.getElementById('customerFormView').classList.remove('hidden');
+        }
+
+        // --- SOUND & ALERT SYSTEM ---
+        function playRingtoneSound(key) {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                
+                if (key === 'gong') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(150, ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(60, ctx.currentTime + 0.8);
+                } else if (key === 'arcade') {
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(523.25, ctx.currentTime);
+                    osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.1);
+                    osc.frequency.setValueAtTime(783.99, ctx.currentTime + 0.2);
+                } else if (key === 'marimba') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(440, ctx.currentTime);
+                    osc.frequency.setValueAtTime(554.37, ctx.currentTime + 0.15);
+                } else if (key === 'chime') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(1046.5, ctx.currentTime);
+                    osc.frequency.setValueAtTime(1318.5, ctx.currentTime + 0.2);
+                } else if (key === 'radar') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(1200, ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(400, ctx.currentTime + 0.5);
+                } else if (key === 'harp') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(523.25, ctx.currentTime);
+                    osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.1);
+                    osc.frequency.setValueAtTime(783.99, ctx.currentTime + 0.2);
+                } else if (key === 'whistle') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(2000, ctx.currentTime);
+                    osc.frequency.linearRampToValueAtTime(2600, ctx.currentTime + 0.2);
+                } else if (key === 'piano') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(261.63, ctx.currentTime);
+                    osc.frequency.setValueAtTime(329.63, ctx.currentTime + 0.12);
+                } else if (key === 'trumpet') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(440, ctx.currentTime);
+                    osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.15);
+                } else if (key === 'xylophone') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(587.33, ctx.currentTime);
+                    osc.frequency.setValueAtTime(880, ctx.currentTime + 0.15);
+                } else if (key === 'bubble') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(300, ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(900, ctx.currentTime + 0.3);
+                } else { // bell
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(880, ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(440, ctx.currentTime + 0.5);
+                }
+
+                gain.gain.setValueAtTime(0.4, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.7);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start();
+                osc.stop(ctx.currentTime + 0.7);
+            } catch(e) {}
+        }
+
+        function playAudioFromBase64(base64Str) {
+            try {
+                const audio = new Audio(base64Str);
+                audio.play().catch(e => {});
+            } catch(e) {}
+        }
+
+        function speakSiriVoice(text) {
+            if (!window.speechSynthesis) return;
+            try {
+                window.speechSynthesis.cancel();
+                const u = new SpeechSynthesisUtterance(text);
+                u.lang = 'th-TH';
+                window.speechSynthesis.speak(u);
+            } catch(e) {}
+        }
+
+        function triggerVibration(mode) {
+            if (!("vibrate" in navigator)) return;
+            try {
+                if (mode === 'pattern1') navigator.vibrate([300, 150, 300]);
+                else if (mode === 'pattern2') navigator.vibrate([100, 80, 100, 80, 100]);
+                else if (mode === 'pattern3') navigator.vibrate([800, 300, 800]);
+                else if (mode === 'off') navigator.vibrate(0);
+            } catch(e) {}
+        }
+
+        function onRingtoneDropdownChange(val) {
+            playRingtoneSound(val);
+        }
+
+        function handleAlertModeChange() {
+            const mode = document.getElementById('settingAlertMode').value;
+            document.getElementById('modeRingtoneContainer').classList.toggle('hidden', mode !== 'ringtone');
+            document.getElementById('modeCustomContainer').classList.toggle('hidden', mode !== 'custom');
+            document.getElementById('modeSiriContainer').classList.toggle('hidden', mode !== 'siri');
+        }
+
+        function testCurrentNotificationSetting() {
+            const mode = document.getElementById('settingAlertMode').value;
+            if (mode === 'ringtone') playRingtoneSound(document.getElementById('settingRingtone').value);
+            else if (mode === 'custom' && tempCustomAudioBase64) playAudioFromBase64(tempCustomAudioBase64);
+            else if (mode === 'siri') speakSiriVoice(document.getElementById('settingSiriText').value.replace('{name}', 'น้องซัมซัมยัง'));
+            triggerVibration(document.getElementById('settingVibrateMode').value);
+        }
+
+        function triggerAdminAlert(customerName) {
+            const mode = adminSettings.alertMode || 'ringtone';
+            if (mode === 'ringtone') playRingtoneSound(adminSettings.ringtone || 'bell');
+            else if (mode === 'custom' && adminSettings.customAudioBase64) playAudioFromBase64(adminSettings.customAudioBase64);
+            else if (mode === 'siri') speakSiriVoice((adminSettings.siriText || 'มีออเดอร์ใหม่จากคุณ {name} ครับ').replace('{name}', customerName));
+            triggerVibration(adminSettings.vibrateMode || 'pattern1');
         }
 
         function loginAdmin() {
@@ -543,22 +797,17 @@
             const now = new Date();
             let filtered = submissions.filter(item => {
                 if (!item.date) return true;
-                // Parse DD/MM/YYYY format
                 const parts = item.date.split('/');
                 if (parts.length !== 3) return true;
                 const itemDate = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
 
-                if (filter === 'today') {
-                    return itemDate.toDateString() === now.toDateString();
-                } else if (filter === 'yesterday') {
+                if (filter === 'today') return itemDate.toDateString() === now.toDateString();
+                if (filter === 'yesterday') {
                     const yday = new Date(now);
                     yday.setDate(now.getDate() - 1);
                     return itemDate.toDateString() === yday.toDateString();
-                } else if (filter === '7days') {
-                    const diffTime = Math.abs(now - itemDate);
-                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                    return diffDays <= 7;
                 }
+                if (filter === '7days') return Math.abs(now - itemDate) / (1000 * 60 * 60 * 24) <= 7;
                 return true;
             });
 
@@ -572,39 +821,122 @@
             document.getElementById('orderCountBadge').innerText = `${submissions.length} รายการ`;
 
             if (submissions.length === 0) {
-                container.innerHTML = `<div class="bg-white rounded-2xl p-8 text-center text-gray-400 space-y-2"><i class="fa-solid fa-inbox text-4xl"></i><p>ยังไม่มีรายการส่งรูปจากลูกค้าในระบบ Cloud</p></div>`;
+                container.innerHTML = `<div class="bg-white rounded-2xl p-8 text-center text-gray-400 space-y-2"><i class="fa-solid fa-inbox text-4xl"></i><p>ยังไม่มีรายการส่งรูปจากลูกค้าใน Cloud</p></div>`;
                 return;
             }
 
-            container.innerHTML = submissions.map(item => `
+            container.innerHTML = submissions.map(item => {
+                const safeImageUrl = formatDriveImageUrl(item.imageUrl);
+                return `
                 <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex flex-col sm:flex-row items-center gap-4">
                     <div class="w-full sm:w-28 h-36 bg-gray-100 rounded-xl overflow-hidden flex-shrink-0">
-                        <img src="${item.imageUrl}" alt="${item.customerName}" class="w-full h-full object-cover">
+                        <img src="${safeImageUrl}" alt="${item.customerName}" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150?text=No+Image'">
                     </div>
                     <div class="flex-grow w-full space-y-2 text-left">
                         <h4 class="font-bold text-gray-800 text-base">${item.customerName}</h4>
                         <p class="text-xs text-gray-400">วันที่ ${item.date || ''} เวลา ${item.time || ''} น.</p>
-                        <a href="${item.imageUrl}" target="_blank" download="${item.fileName}" class="inline-block bg-brand-red text-white text-xs py-2 px-4 rounded-xl font-semibold hover:bg-brand-redDark transition">
-                            <i class="fa-solid fa-download mr-1"></i> ดาวน์โหลดรูปจาก Drive
-                        </a>
+                        
+                        <div class="flex items-center space-x-2 text-xs">
+                            <span class="px-2 py-0.5 rounded-md ${item.clickedFacebook ? 'bg-blue-100 text-blue-700 font-semibold' : 'bg-gray-100 text-gray-400'}">
+                                ${item.clickedFacebook ? 'FB กดแล้ว' : 'FB ยังไม่กด'}
+                            </span>
+                            <span class="px-2 py-0.5 rounded-md ${item.clickedInstagram ? 'bg-pink-100 text-pink-700 font-semibold' : 'bg-gray-100 text-gray-400'}">
+                                ${item.clickedInstagram ? 'IG กดแล้ว' : 'IG ยังไม่กด'}
+                            </span>
+                        </div>
+
+                        <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-gray-50">
+                            <a href="${safeImageUrl}" download="${item.fileName || 'image.jpg'}" class="bg-brand-red text-white text-xs py-2 px-3 rounded-xl font-semibold text-center hover:bg-brand-redDark transition flex items-center space-x-1">
+                                <i class="fa-solid fa-download"></i>
+                                <span>ดาวน์โหลด</span>
+                            </a>
+                            <a href="${item.imageUrl}" target="_blank" class="bg-blue-600 text-white text-xs py-2 px-3 rounded-xl font-semibold text-center hover:bg-blue-700 transition flex items-center space-x-1">
+                                <i class="fa-brands fa-google-drive"></i>
+                                <span>เปิด Drive</span>
+                            </a>
+                            <button onclick="openDetailModal('${item.id}')" class="px-3 py-2 bg-gray-100 text-gray-700 text-xs rounded-xl font-medium hover:bg-gray-200 transition">
+                                รายละเอียด
+                            </button>
+                            <button onclick="deleteSubmission('${item.id}')" class="px-3 py-2 bg-red-50 text-red-600 text-xs rounded-xl font-medium hover:bg-red-100 transition">
+                                <i class="fa-solid fa-trash"></i> ลบ
+                            </button>
+                        </div>
                     </div>
                 </div>
-            `).join('');
+            `;}).join('');
+        }
+
+        function deleteSubmission(id) {
+            if (confirm('ต้องการลบภาพนี้ชิมิ')) {
+                fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: "delete", id: id })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        submissions = submissions.filter(s => s.id !== id);
+                        renderAdminDashboard();
+                        alert('ลบรูปภาพเรียบร้อยแล้ว');
+                    } else {
+                        alert('ไม่สามารถลบข้อมูลได้: ' + data.message);
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('เกิดข้อผิดพลาดในการเชื่อมต่อเพื่อลบข้อมูล');
+                });
+            }
         }
 
         function openExternalUrl(type) {
             if (type === 'drive') {
-                window.open('https://drive.google.com/drive/search?q=RamyeonSsam_Uploads', '_blank');
+                let targetUrl = adminSettings.driveUrl;
+                if (!targetUrl || targetUrl.trim() === '') {
+                    targetUrl = 'https://drive.google.com/';
+                }
+                window.open(targetUrl, '_blank');
             } else if (type === 'sheet') {
-                window.open('https://docs.google.com/spreadsheets/u/0/', '_blank');
+                let targetUrl = adminSettings.sheetUrl;
+                if (!targetUrl || targetUrl.trim() === '') {
+                    targetUrl = 'https://docs.google.com/spreadsheets/u/0/';
+                }
+                window.open(targetUrl, '_blank');
             }
+        }
+
+        function openDetailModal(id) {
+            const item = submissions.find(s => s.id === id);
+            if (!item) return;
+
+            const safeImageUrl = formatDriveImageUrl(item.imageUrl);
+            document.getElementById('detailContent').innerHTML = `
+                <div class="text-center mb-3">
+                    <img src="${safeImageUrl}" class="max-h-48 mx-auto rounded-xl shadow border">
+                </div>
+                <div class="space-y-2 border-t pt-2">
+                    <p><strong>ชื่อลูกค้า:</strong> ${item.customerName}</p>
+                    <p><strong>รหัสรายการ:</strong> ${item.id}</p>
+                    <p><strong>วันที่ส่ง:</strong> ${item.date} (${item.time} น.)</p>
+                    <p><strong>อุปกรณ์:</strong> ${item.deviceInfo || '-'}</p>
+                    <p><a href="${item.imageUrl}" target="_blank" class="text-brand-red font-semibold hover:underline"><i class="fa-solid fa-arrow-up-right-from-square mr-1"></i> เปิดดูรูปภาพต้นฉบับใน Google Drive</a></p>
+                </div>
+            `;
+            document.getElementById('detailModal').classList.remove('hidden');
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detailModal').classList.add('hidden');
         }
 
         function openSettingsModal() {
             document.getElementById('settingDriveUrl').value = adminSettings.driveUrl || '';
             document.getElementById('settingSheetUrl').value = adminSettings.sheetUrl || '';
-            document.getElementById('settingLogoUrl').value = adminSettings.logoUrl || '';
-            document.getElementById('settingNewPass').value = '';
+            document.getElementById('settingAlertMode').value = adminSettings.alertMode || 'ringtone';
+            document.getElementById('settingRingtone').value = adminSettings.ringtone || 'bell';
+            document.getElementById('settingSiriText').value = adminSettings.siriText || 'มีออเดอร์ใหม่จากคุณ {name} ครับ';
+            document.getElementById('settingVibrateMode').value = adminSettings.vibrateMode || 'pattern1';
+            handleAlertModeChange();
             document.getElementById('settingsModal').classList.remove('hidden');
         }
 
@@ -612,18 +944,44 @@
             document.getElementById('settingsModal').classList.add('hidden');
         }
 
+        function handleLogoUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    tempLogoBase64 = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
         function saveAdminSettings() {
-            adminSettings.driveUrl = document.getElementById('settingDriveUrl').value.trim();
-            adminSettings.sheetUrl = document.getElementById('settingSheetUrl').value.trim();
-            const logoUrl = document.getElementById('settingLogoUrl').value.trim();
-            if (logoUrl) adminSettings.logoUrl = logoUrl;
+            adminSettings.driveUrl = document.getElementById('settingDriveUrl').value.trim() || adminSettings.driveUrl;
+            adminSettings.sheetUrl = document.getElementById('settingSheetUrl').value.trim() || adminSettings.sheetUrl;
+            adminSettings.alertMode = document.getElementById('settingAlertMode').value;
+            adminSettings.ringtone = document.getElementById('settingRingtone').value;
+            adminSettings.siriText = document.getElementById('settingSiriText').value.trim();
+            adminSettings.vibrateMode = document.getElementById('settingVibrateMode').value;
+
+            if (tempLogoBase64) {
+                adminSettings.logoUrl = tempLogoBase64;
+                fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: "updateLogo", logoUrl: tempLogoBase64 })
+                }).catch(e => {});
+            }
+
+            if (tempCustomAudioBase64) {
+                adminSettings.customAudioBase64 = tempCustomAudioBase64;
+            }
+
             const newPass = document.getElementById('settingNewPass').value.trim();
             if (newPass) adminSettings.password = newPass;
 
             localStorage.setItem('ramyeon_settings', JSON.stringify(adminSettings));
             applyLogoSettings();
             closeSettingsModal();
-            alert('บันทึกการตั้งค่าระบบเรียบร้อยแล้ว!');
+            alert('บันทึกการตั้งค่าระบบและซิงค์โลโก้ทุกเครื่องเรียบร้อยแล้ว!');
         }
     </script>
 </body>
