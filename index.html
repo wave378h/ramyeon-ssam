@@ -33,18 +33,31 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Prompt', sans-serif; background-color: #F7FAFC; }
-        .bg-instagram { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #F7FAFC;
+        }
+        /* Instagram Gradient Button */
+        .bg-instagram {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+        /* Custom Animations */
         @keyframes scaleUp {
             0% { transform: scale(0.8); opacity: 0; }
             100% { transform: scale(1); opacity: 1; }
         }
-        .animate-scale-up { animation: scaleUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        .animate-scale-up {
+            animation: scaleUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
         @keyframes checkmark {
             0% { stroke-dashoffset: 100; }
             100% { stroke-dashoffset: 0; }
         }
-        .animate-checkmark { stroke-dasharray: 100; stroke-dashoffset: 100; animation: checkmark 0.6s ease-in-out forwards 0.2s; }
+        .animate-checkmark {
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            animation: checkmark 0.6s ease-in-out forwards 0.2s;
+        }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col justify-between">
@@ -52,6 +65,7 @@
     <!-- Top Navigation / Header -->
     <header class="bg-brand-red text-white shadow-md sticky top-0 z-50">
         <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center">
+            <!-- Restaurant Logo & Name -->
             <div id="logoContainer" class="flex items-center space-x-2 cursor-pointer" onclick="returnToMainOrCustomer()">
                 <div id="restaurantLogo" class="w-12 h-12 bg-white text-brand-red font-bold rounded-full flex items-center justify-center border-2 border-brand-yellow shadow overflow-hidden">
                     <img id="logoImg" src="https://lh3.googleusercontent.com/d/1avrpH8b5iRnkjaL7LYaksy7vf1P2h2H7" alt="Ramyeon ssam Logo" class="w-full h-full object-cover">
@@ -59,6 +73,7 @@
                 <span class="font-bold text-xl tracking-wide">Ramyeon ssam</span>
             </div>
 
+            <!-- Header Action Button -->
             <div class="flex items-center space-x-2">
                 <button id="headerActionBtn" onclick="handleHeaderAction()" class="px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold bg-brand-redDark text-white hover:bg-black transition shadow">
                     <i id="headerActionIcon" class="fa-solid fa-lock mr-1"></i> <span id="headerActionText">เข้าสู่ระบบ</span>
@@ -70,9 +85,14 @@
     <!-- MAIN CONTENT CONTAINER -->
     <main class="max-w-xl mx-auto w-full p-4 flex-grow">
 
-        <!-- 1. CUSTOMER SECTION -->
+        <!-- ========================================== -->
+        <!-- 1. CUSTOMER SECTION                        -->
+        <!-- ========================================== -->
         <section id="customerView" class="space-y-6">
+
+            <!-- Submissions Main Form View -->
             <div id="customerFormView" class="space-y-6 animate-scale-up">
+                <!-- Welcome Banner & Logo Header -->
                 <div class="bg-white rounded-2xl p-6 shadow-sm border border-red-100 text-center space-y-3">
                     <div class="w-20 h-20 mx-auto rounded-full border-2 border-brand-yellow shadow-md overflow-hidden bg-brand-redLight">
                         <img id="bannerLogoImg" src="https://lh3.googleusercontent.com/d/1avrpH8b5iRnkjaL7LYaksy7vf1P2h2H7" alt="Logo" class="w-full h-full object-cover">
@@ -82,15 +102,16 @@
                         <p class="text-sm text-gray-600">ติดตามเพจ Facebook และ Instagram ค้นหา <span class="font-semibold text-brand-red">‘ramyeonssam’</span></p>
                     </div>
                     
+                    <!-- Social Media Buttons -->
                     <div class="grid grid-cols-2 gap-3 pt-2">
-                        <a href="https://www.facebook.com/profile.php?id=61592560921596" target="_blank" onclick="trackSocialClick('facebook')" class="flex items-center justify-center space-x-2 bg-[#1877F2] text-white py-2.5 px-4 rounded-xl font-medium shadow hover:opacity-90 transition">
+                        <a href="https://www.facebook.com/profile.php?id=61592560921596" target="_blank" onclick="trackSocialClick('facebook')" class="flex items-center justify-center space-x-2 bg-[#1877F2] text-white py-2.5 px-4 rounded-xl font-medium shadow hover:opacity-90 transition active:scale-95">
                             <i class="fa-brands fa-facebook text-xl"></i>
                             <div class="text-left text-xs leading-tight">
                                 <span class="block text-[10px] opacity-80">ติดตามเพจ</span>
                                 <span class="font-bold">Ramyeon ssam</span>
                             </div>
                         </a>
-                        <a href="https://www.instagram.com/ramyeonssam?igsh=b2kyMXJuNjZweGZw" target="_blank" onclick="trackSocialClick('instagram')" class="flex items-center justify-center space-x-2 bg-instagram text-white py-2.5 px-4 rounded-xl font-medium shadow hover:opacity-90 transition">
+                        <a href="https://www.instagram.com/ramyeonssam?igsh=b2kyMXJuNjZweGZw" target="_blank" onclick="trackSocialClick('instagram')" class="flex items-center justify-center space-x-2 bg-instagram text-white py-2.5 px-4 rounded-xl font-medium shadow hover:opacity-90 transition active:scale-95">
                             <i class="fa-brands fa-instagram text-xl"></i>
                             <div class="text-left text-xs leading-tight">
                                 <span class="block text-[10px] opacity-80">ติดตาม IG</span>
@@ -100,23 +121,26 @@
                     </div>
                 </div>
 
+                <!-- Step 1: Input Customer Name -->
                 <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 space-y-3">
                     <label for="customerName" class="block font-bold text-gray-800 text-base">
                         <span class="inline-block bg-brand-red text-white text-xs px-2 py-0.5 rounded-full mr-1">ขั้นตอนที่ 1</span>
                         โปรดระบุชื่อลูกค้า <span class="text-brand-red">*</span>
                     </label>
-                    <input type="text" id="customerName" placeholder="กรอกชื่อของคุณ (เช่น น้องซัมซัมยัง)" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-red outline-none text-base">
+                    <input type="text" id="customerName" placeholder="กรอกชื่อของคุณ (เช่น น้องซัมซัมยัง)" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-red focus:border-brand-red outline-none transition text-base">
                 </div>
 
+                <!-- Step 2: Upload Image -->
                 <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 space-y-4">
                     <div>
                         <label class="block font-bold text-gray-800 text-base">
                             <span class="inline-block bg-brand-red text-white text-xs px-2 py-0.5 rounded-full mr-1">ขั้นตอนที่ 2</span>
                             อัปโหลดรูปภาพของคุณ <span class="text-brand-red">*</span>
                         </label>
-                        <p class="text-xs text-gray-500 mt-1">รูปน้องหมา น้องแมว รูปคู่เพื่อน หวานใจ หรือรูปคาแรคเตอร์</p>
+                        <p class="text-xs text-gray-500 mt-1">รูปน้องหมา น้องแมว รูปคู่เพื่อน หวานใจ รูปวาดคาแรคเตอร์ตัวเอง หรือรูปอื่นๆ</p>
                     </div>
 
+                    <!-- Dropzone / Input Container -->
                     <div id="uploadBox" class="border-2 border-dashed border-red-200 rounded-2xl p-6 text-center bg-red-50/30 hover:bg-red-50/80 transition cursor-pointer relative" onclick="document.getElementById('fileInput').click()">
                         <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" class="hidden" onchange="handleFileSelect(event)">
                         
@@ -128,63 +152,117 @@
                             <p class="text-xs text-gray-400">รองรับไฟล์ JPG, PNG, WEBP (ขนาดไม่เกิน 10MB)</p>
                         </div>
 
+                        <!-- Image Preview Box -->
                         <div id="previewContainer" class="hidden relative">
                             <img id="imagePreview" src="" alt="Preview" class="max-h-64 mx-auto rounded-xl shadow-md border border-gray-200 object-contain">
+                            
                             <div class="mt-4 flex justify-center space-x-3">
-                                <button type="button" onclick="event.stopPropagation(); removeSelectedImage();" class="px-3 py-1.5 bg-gray-200 text-red-600 rounded-lg text-xs font-semibold">ลบรูป</button>
-                                <button type="button" onclick="event.stopPropagation(); document.getElementById('fileInput').click();" class="px-3 py-1.5 bg-brand-red text-white rounded-lg text-xs font-semibold">เปลี่ยนรูป</button>
+                                <button type="button" onclick="event.stopPropagation(); removeSelectedImage();" class="px-3 py-1.5 bg-gray-200 hover:bg-red-100 text-red-600 rounded-lg text-xs font-semibold transition flex items-center">
+                                    <i class="fa-solid fa-trash mr-1"></i> ลบรูป
+                                </button>
+                                <button type="button" onclick="event.stopPropagation(); document.getElementById('fileInput').click();" class="px-3 py-1.5 bg-brand-red text-white rounded-lg text-xs font-semibold hover:bg-brand-redDark transition flex items-center">
+                                    <i class="fa-solid fa-arrows-rotate mr-1"></i> เปลี่ยนรูป
+                                </button>
                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Progress Bar -->
+                    <div id="progressContainer" class="hidden space-y-1">
+                        <div class="flex justify-between text-xs text-gray-600 font-semibold">
+                            <span>กำลังอัปโหลด...</span>
+                            <span id="progressText">0%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden">
+                            <div id="progressBar" class="bg-brand-red h-2.5 rounded-full transition-all duration-200" style="width: 0%"></div>
                         </div>
                     </div>
                 </div>
 
-                <button id="submitBtn" onclick="submitPhoto()" class="w-full bg-brand-red text-white py-4 rounded-2xl font-bold text-lg shadow-lg hover:bg-brand-redDark transition flex items-center justify-center space-x-2">
+                <!-- Submit Button -->
+                <button id="submitBtn" onclick="submitPhoto()" class="w-full bg-brand-red text-white py-4 rounded-2xl font-bold text-lg shadow-lg hover:bg-brand-redDark active:scale-95 transition duration-150 flex items-center justify-center space-x-2">
                     <i class="fa-solid fa-paper-plane"></i>
                     <span>ส่งรูปภาพ</span>
                 </button>
             </div>
 
+            <!-- Thank You View (Shown after submission) -->
             <div id="thankYouView" class="hidden bg-white rounded-2xl p-8 shadow-md border border-gray-100 text-center space-y-6 animate-scale-up">
+                <!-- Success Checkmark Animation -->
                 <div class="w-24 h-24 mx-auto bg-green-100 rounded-full flex items-center justify-center p-2">
                     <svg class="w-16 h-16 text-green-500" viewBox="0 0 52 52">
                         <circle class="text-green-200" stroke-width="4" stroke="currentColor" fill="none" cx="26" cy="26" r="23"/>
                         <path class="animate-checkmark text-green-500" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor" d="M14 27l7 7 16-16"/>
                     </svg>
                 </div>
+
                 <div>
                     <h2 class="text-2xl font-bold text-gray-800 mb-2">ส่งรูปเรียบร้อยแล้ว</h2>
                     <p class="text-gray-600 text-sm">ขอบคุณที่มาอุดหนุนนะค้าบ</p>
                 </div>
-                <button onclick="resetCustomerForm()" class="mt-6 inline-flex items-center text-brand-red font-semibold text-sm hover:underline">
-                    <i class="fa-solid fa-arrow-left mr-2"></i> กลับไปหน้าแรก
-                </button>
+
+                <div class="pt-4 border-t border-gray-100 space-y-4">
+                    <p class="text-xs text-gray-500">ติดตามข่าวสารใหม่ๆจากทางร้านได้ที่นี่</p>
+                    <div class="flex justify-center space-x-3">
+                        <a href="https://www.facebook.com/profile.php?id=61592560921596" target="_blank" onclick="trackSocialClick('facebook')" class="px-4 py-2 bg-[#1877F2] text-white rounded-xl text-xs font-semibold flex items-center shadow">
+                            <i class="fa-brands fa-facebook mr-1"></i> Facebook
+                        </a>
+                        <a href="https://www.instagram.com/ramyeonssam?igsh=b2kyMXJuNjZweGZw" target="_blank" onclick="trackSocialClick('instagram')" class="px-4 py-2 bg-instagram text-white rounded-xl text-xs font-semibold flex items-center shadow">
+                            <i class="fa-brands fa-instagram mr-1"></i> Instagram
+                        </a>
+                    </div>
+
+                    <button onclick="resetCustomerForm()" class="mt-6 inline-flex items-center text-brand-red font-semibold text-sm hover:underline">
+                        <i class="fa-solid fa-arrow-left mr-2"></i> กลับไปหน้าแรก
+                    </button>
+                </div>
             </div>
+
         </section>
 
-        <!-- 2. ADMIN SECTION -->
+
+        <!-- ========================================== -->
+        <!-- 2. ADMIN SECTION                           -->
+        <!-- ========================================== -->
         <section id="adminView" class="hidden space-y-6">
+
+            <!-- Admin Login View -->
             <div id="adminLoginCard" class="bg-white rounded-2xl p-6 shadow-md border border-gray-100 max-w-sm mx-auto space-y-4 animate-scale-up">
                 <div class="text-center space-y-2">
+                    <div class="w-16 h-16 mx-auto rounded-full border-2 border-brand-yellow shadow overflow-hidden">
+                        <img id="loginLogoImg" src="https://lh3.googleusercontent.com/d/1avrpH8b5iRnkjaL7LYaksy7vf1P2h2H7" alt="Logo" class="w-full h-full object-cover">
+                    </div>
                     <h2 class="text-xl font-bold text-gray-800">เข้าสู่ระบบแอดมิน</h2>
                     <p class="text-xs text-gray-500">สำหรับเจ้าหน้าที่ร้าน Ramyeon ssam เท่านั้น</p>
                 </div>
+
                 <div class="space-y-3">
-                    <input type="password" id="adminPassword" placeholder="กรอกรหัสผ่าน" class="w-full px-4 py-2.5 border border-gray-300 rounded-xl outline-none text-center text-lg">
-                    <button onclick="loginAdmin()" class="w-full bg-brand-red text-white py-2.5 rounded-xl font-bold shadow hover:bg-brand-redDark transition">เข้าสู่ระบบ</button>
-                    <p id="loginError" class="text-xs text-red-500 text-center hidden">ว๊ายต๊ายแล้ว...รหัสผ่านไม่ถูกต้อง!</p>
+                    <input type="password" id="adminPassword" placeholder="กรอกรหัสผ่าน" class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-red outline-none text-center text-lg">
+                    <button onclick="loginAdmin()" class="w-full bg-brand-red text-white py-2.5 rounded-xl font-bold shadow hover:bg-brand-redDark transition">
+                        เข้าสู่ระบบ
+                    </button>
+                    <p id="loginError" class="text-xs text-red-500 text-center hidden">รหัสผ่านไม่ถูกต้อง!</p>
                 </div>
             </div>
 
+            <!-- Admin Dashboard Main View -->
             <div id="adminDashboard" class="hidden space-y-6">
+
+                <!-- Stats Overview Panel -->
                 <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 space-y-4">
                     <div class="flex justify-between items-center border-b pb-3">
                         <h2 class="font-bold text-gray-800 text-lg flex items-center">
-                            <i class="fa-solid fa-chart-line text-brand-red mr-2"></i> ภาพรวมสถิติ (Real-time)
+                            <i class="fa-solid fa-chart-line text-brand-red mr-2"></i> ภาพรวมสถิติ
                         </h2>
-                        <button onclick="fetchOrdersFromCloud()" class="bg-gray-100 hover:bg-gray-200 text-xs px-3 py-1.5 rounded-lg font-semibold flex items-center">
-                            <i class="fa-solid fa-rotate mr-1"></i> ซิงค์ข้อมูล
-                        </button>
+                        <!-- Filter Dropdown -->
+                        <select id="statFilter" onchange="renderAdminStats()" class="text-xs border border-gray-300 rounded-lg px-2.5 py-1.5 outline-none bg-gray-50 font-medium">
+                            <option value="all">ทั้งหมด</option>
+                            <option value="today">วันนี้</option>
+                            <option value="yesterday">เมื่อวาน</option>
+                            <option value="7days">7 วันล่าสุด</option>
+                        </select>
                     </div>
+
                     <div class="grid grid-cols-3 gap-3 text-center">
                         <div class="bg-red-50 p-3 rounded-xl border border-red-100">
                             <p class="text-xs text-gray-500 font-medium">ลูกค้าทั้งหมด</p>
@@ -201,59 +279,267 @@
                     </div>
                 </div>
 
+                <!-- External Connections Links & Settings -->
+                <div class="bg-gray-800 text-white p-4 rounded-2xl shadow space-y-3">
+                    <div class="flex justify-between items-center border-b border-gray-700 pb-2">
+                        <div class="text-xs">
+                            <p class="font-bold text-brand-yellow"><i class="fa-solid fa-link mr-1"></i> เครื่องมือแอดมิน & เชื่อมต่อ</p>
+                            <p class="text-gray-300">Google Drive / Google Sheets / โลโก้ / เสียงแจ้งเตือน</p>
+                        </div>
+                        <button onclick="openSettingsModal()" class="px-3 py-1.5 bg-brand-red hover:bg-brand-redDark text-xs font-semibold rounded-lg transition">
+                            <i class="fa-solid fa-gear mr-1"></i> ตั้งค่าระบบ
+                        </button>
+                    </div>
+
+                    <!-- Direct Shortcuts (Drive & Sheets) -->
+                    <div class="grid grid-cols-2 gap-2 pt-1">
+                        <button onclick="openExternalUrl('drive')" class="bg-gray-700 hover:bg-gray-600 text-xs py-2 px-3 rounded-xl font-semibold flex items-center justify-center space-x-1 transition">
+                            <i class="fa-brands fa-google-drive text-green-400 text-base mr-1"></i>
+                            <span>เปิด Google Drive</span>
+                        </button>
+                        <button onclick="openExternalUrl('sheet')" class="bg-gray-700 hover:bg-gray-600 text-xs py-2 px-3 rounded-xl font-semibold flex items-center justify-center space-x-1 transition">
+                            <i class="fa-solid fa-table text-emerald-400 text-base mr-1"></i>
+                            <span>เปิด Google Sheets</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Orders / Submissions List -->
                 <div class="space-y-4">
                     <div class="flex justify-between items-center">
                         <h3 class="font-bold text-gray-800 text-base flex items-center">
                             <i class="fa-solid fa-images text-brand-red mr-2"></i> รายการรูปภาพจากลูกค้า
                         </h3>
-                        <span id="orderCountBadge" class="bg-brand-red text-white text-xs px-2.5 py-0.5 rounded-full font-bold">0 รายการ</span>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="refreshOrdersList()" class="bg-gray-200 hover:bg-gray-300 text-gray-700 text-xs px-2.5 py-1 rounded-lg font-semibold transition flex items-center">
+                                <i class="fa-solid fa-rotate mr-1"></i> รีเฟรช
+                            </button>
+                            <span id="orderCountBadge" class="bg-brand-red text-white text-xs px-2.5 py-0.5 rounded-full font-bold">0 รายการ</span>
+                        </div>
                     </div>
+
+                    <!-- List Container -->
                     <div id="ordersList" class="space-y-4">
-                        <!-- Dynamic Order Cards -->
+                        <!-- Dynamic Order Cards Inserted Here -->
                     </div>
                 </div>
+
             </div>
+
         </section>
+
     </main>
 
+    <!-- Footer -->
     <footer class="bg-white border-t border-gray-200 py-4 text-center text-xs text-gray-500 mt-8">
         <p>© 2026 Ramyeon ssam - All Rights Reserved</p>
     </footer>
 
+    <!-- ========================================== -->
+    <!-- MODALS & OVERLAYS                          -->
+    <!-- ========================================== -->
+
+    <!-- Order Detail Modal -->
+    <div id="detailModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full overflow-hidden shadow-2xl space-y-4 p-6 animate-scale-up max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="font-bold text-lg text-gray-800">รายละเอียดคำขอ</h3>
+                <button onclick="closeDetailModal()" class="text-gray-400 hover:text-gray-600 text-xl"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div id="detailContent" class="space-y-3 text-sm">
+                <!-- Dynamic Content -->
+            </div>
+
+            <button onclick="closeDetailModal()" class="w-full bg-gray-200 text-gray-700 py-2 rounded-xl font-semibold">ปิดหน้าต่าง</button>
+        </div>
+    </div>
+
+    <!-- Admin Settings Modal -->
+    <div id="settingsModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 animate-scale-up max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="font-bold text-lg text-gray-800">ตั้งค่าระบบ (Admin Settings)</h3>
+                <button onclick="closeSettingsModal()" class="text-gray-400 hover:text-gray-600 text-xl"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="space-y-4 text-sm">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">ลิงก์ Google Drive Folder (หากเว้นว่าง ระบบจะสร้างให้อัตโนมัติ)</label>
+                    <input type="url" id="settingDriveUrl" placeholder="https://drive.google.com/..." class="w-full px-3 py-2 border rounded-xl outline-none focus:ring-1 focus:ring-brand-red">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">ลิงก์ Google ชีต (หากเว้นว่าง ระบบจะสร้างให้อัตโนมัติ)</label>
+                    <input type="url" id="settingSheetUrl" placeholder="https://docs.google.com/spreadsheets/..." class="w-full px-3 py-2 border rounded-xl outline-none focus:ring-1 focus:ring-brand-red">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">อัปโหลดไฟล์รูปภาพโลโก้ร้าน</label>
+                    <input type="file" id="settingLogoFile" accept="image/*" onchange="handleLogoUpload(event)" class="w-full text-xs text-gray-500 border rounded-xl p-2">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">หรือระบุ URL โลโก้ร้าน</label>
+                    <input type="url" id="settingLogoUrl" placeholder="https://example.com/logo.png" class="w-full px-3 py-2 border rounded-xl outline-none focus:ring-1 focus:ring-brand-red">
+                </div>
+
+                <!-- Sound & Vibration Alert Customization Section -->
+                <div class="bg-gray-50 p-3 rounded-xl border border-gray-200 space-y-3">
+                    <div class="flex justify-between items-center border-b pb-2">
+                        <h4 class="font-bold text-gray-800 text-xs uppercase tracking-wider text-brand-red">ตั้งค่าเสียง & ระบบสั่นแจ้งเตือน</h4>
+                        <button type="button" onclick="testCurrentNotificationSetting()" class="px-3 py-1.5 bg-brand-red hover:bg-brand-redDark text-white text-xs rounded-xl font-semibold shadow transition">
+                            <i class="fa-solid fa-volume-high mr-1"></i> ทดสอบการแจ้งเตือน
+                        </button>
+                    </div>
+
+                    <!-- Sound Mode Selector -->
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">เลือกรูปแบบเสียงแจ้งเตือน</label>
+                        <select id="settingAlertMode" onchange="handleAlertModeChange()" class="w-full px-3 py-2 border rounded-xl outline-none bg-white text-xs font-semibold">
+                            <option value="ringtone">เสียงริงโทนระบบ</option>
+                            <option value="custom">อัปโหลดไฟล์เสียง/วิดีโอส่วนตัว</option>
+                            <option value="siri">เสียงสิริพูดข้อความ</option>
+                            <option value="silent">ปิดเสียงทั้งหมด (เงียบ)</option>
+                        </select>
+                    </div>
+
+                    <!-- Mode A: Ringtone Selector -->
+                    <div id="modeRingtoneContainer" class="space-y-1">
+                        <label class="block text-xs text-gray-600 mb-1">เลือกเสียงริงโทน</label>
+                        <select id="settingRingtone" onchange="onRingtoneDropdownChange(this.value)" class="w-full px-3 py-2 border rounded-xl outline-none bg-white text-xs">
+                            <option value="bell">กระดิ่งร้านค้า (Bell Chime)</option>
+                            <option value="marimba">มาริมบาใสๆ (Marimba)</option>
+                            <option value="chime">กระดิ่งแก้ว (Crystal Chime)</option>
+                            <option value="beep">ปี๊ปสั้นดิจิทัล (Digital Beep)</option>
+                            <option value="radar">เรดาร์เตือนภัย (Radar Alert)</option>
+                            <option value="xylophone">ระนาดหวานใส (Xylophone Scale)</option>
+                            <option value="arcade">เกมอาร์เคด (Arcade Coin)</option>
+                            <option value="harp">พิณสวรรค์ (Harp Glissando)</option>
+                            <option value="bubble">เสียงฟองน้ำ (Bubble Pop)</option>
+                            <option value="gong">ฆ้องจีนโบราณ (Gong Sound)</option>
+                            <option value="whistle">เสียงนกหวีด (Whistle Alert)</option>
+                            <option value="piano">เปียโนสั้น (Piano Chord)</option>
+                            <option value="trumpet">แตรต้อนรับ (Fanfare Trumpet)</option>
+                        </select>
+                        <p class="text-[10px] text-gray-400">เสียงจะเล่นทันทีเมื่อเปลี่ยนตัวเลือก</p>
+                    </div>
+
+                    <!-- Mode B: Custom Audio/Video Upload -->
+                    <div id="modeCustomContainer" class="hidden space-y-1">
+                        <label class="block text-xs text-gray-600 mb-1">อัปโหลดไฟล์เสียง/วิดีโอ (.mp3 / .wav / .mp4)</label>
+                        <input type="file" id="settingAudioFile" accept="audio/*,video/*" class="w-full text-xs text-gray-500 border rounded-xl p-1.5 bg-white">
+                        <p class="text-[10px] text-gray-400">กดปุ่ม "ทดสอบการแจ้งเตือน" เพื่อฟังไฟล์ที่เลือก</p>
+                    </div>
+
+                    <!-- Mode C: Siri Voice Announcer -->
+                    <div id="modeSiriContainer" class="hidden space-y-2">
+                        <label class="block text-xs text-gray-600 mb-1">รูปแบบข้อความเสียงสิริ (ใช้คำว่า <code class="bg-gray-200 px-1 rounded">{name}</code> แทนชื่อลูกค้า)</label>
+                        <input type="text" id="settingSiriText" value="มีออเดอร์ใหม่จากคุณ {name} ครับ" class="w-full px-3 py-2 border rounded-xl outline-none bg-white text-xs">
+                        <p class="text-[10px] text-gray-400">กดปุ่ม "ทดสอบการแจ้งเตือน" เพื่อฟังเสียงสิริพูด</p>
+                    </div>
+
+                    <!-- Vibration Pattern Selector -->
+                    <div class="pt-2 border-t space-y-1">
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">รูปแบบระบบสั่น</label>
+                        <select id="settingVibrateMode" class="w-full px-3 py-2 border rounded-xl outline-none bg-white text-xs font-semibold">
+                            <option value="pattern1">สั่นเป็นจังหวะเตือน (Standard Pulse)</option>
+                            <option value="pattern2">สั่นถี่รัว (Rapid Buzz)</option>
+                            <option value="pattern3">สั่นยาวต่อเนื่อง (Long Heavy Vibration)</option>
+                            <option value="off">ปิดระบบสั่น</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">เปลี่ยนรหัสผ่านแอดมิน</label>
+                    <input type="password" id="settingNewPass" placeholder="รหัสผ่านใหม่" class="w-full px-3 py-2 border rounded-xl outline-none focus:ring-1 focus:ring-brand-red">
+                </div>
+            </div>
+
+            <div class="pt-2 flex space-x-2">
+                <button onclick="saveAdminSettings()" class="flex-1 bg-brand-red text-white py-2.5 rounded-xl font-bold hover:bg-brand-redDark transition">
+                    บันทึกการเปลี่ยนแปลง
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- JavaScript Application Logic -->
     <script>
-        // ใส่ Web App URL ที่ได้จากการ Deploy Google Apps Script ที่นี่
-        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxM7YhBfL-zDb4tSmZ1LH5RkBBtWyR7_PZK2GFfCqTmM6OdThXdJg3jmH36QqKBf2-qbA/exec";
-
-        let submissions = [];
-        let adminSettings = { password: 'admin123', logoUrl: 'https://lh3.googleusercontent.com/d/1avrpH8b5iRnkjaL7LYaksy7vf1P2h2H7' };
+        // --- GLOBAL STATE ---
+        let submissions = JSON.parse(localStorage.getItem('ramyeon_submissions') || '[]');
+        let adminSettings = JSON.parse(localStorage.getItem('ramyeon_settings') || JSON.stringify({
+            password: 'admin123',
+            driveUrl: '',
+            sheetUrl: '',
+            logoUrl: 'https://lh3.googleusercontent.com/d/1avrpH8b5iRnkjaL7LYaksy7vf1P2h2H7',
+            alertMode: 'ringtone',
+            ringtone: 'bell',
+            customAudioBase64: '',
+            siriText: 'มีออเดอร์ใหม่จากคุณ {name} ครับ',
+            vibrateMode: 'pattern1'
+        }));
+        
         let selectedFileData = null;
         let socialClicksState = { facebook: null, instagram: null };
         let isAdminLoggedIn = sessionStorage.getItem('ramyeon_admin_logged') === 'true';
-        let realtimeSyncInterval = null;
+        let tempLogoBase64 = null;
+        let tempCustomAudioBase64 = null;
 
+        // --- INITIALIZATION ---
         window.addEventListener('DOMContentLoaded', () => {
+            applyLogoSettings();
+            requestNotificationPermission();
+            
             if (isAdminLoggedIn) {
                 switchView('admin');
-                startRealtimeSync();
             } else {
                 switchView('customer');
             }
         });
 
+        function requestNotificationPermission() {
+            if ("Notification" in window && Notification.permission !== "granted" && Notification.permission !== "denied") {
+                Notification.requestPermission();
+            }
+        }
+
+        function applyLogoSettings() {
+            const logoImg = document.getElementById('logoImg');
+            const bannerLogoImg = document.getElementById('bannerLogoImg');
+            const loginLogoImg = document.getElementById('loginLogoImg');
+            const targetLogo = adminSettings.logoUrl || 'https://lh3.googleusercontent.com/d/1avrpH8b5iRnkjaL7LYaksy7vf1P2h2H7';
+
+            if (logoImg) logoImg.src = targetLogo;
+            if (bannerLogoImg) bannerLogoImg.src = targetLogo;
+            if (loginLogoImg) loginLogoImg.src = targetLogo;
+        }
+
+        // Header Action Button Switcher
         function handleHeaderAction() {
             if (isAdminLoggedIn) {
                 isAdminLoggedIn = false;
                 sessionStorage.removeItem('ramyeon_admin_logged');
-                stopRealtimeSync();
                 switchView('customer');
             } else {
-                switchView('admin');
+                const adminView = document.getElementById('adminView');
+                const isLoginCardVisible = !document.getElementById('adminLoginCard').classList.contains('hidden');
+                
+                if (!adminView.classList.contains('hidden') && isLoginCardVisible) {
+                    switchView('customer');
+                } else {
+                    switchView('admin');
+                }
             }
         }
 
         function returnToMainOrCustomer() {
-            if (isAdminLoggedIn) { switchView('admin'); } else { switchView('customer'); }
+            if (isAdminLoggedIn) {
+                switchView('admin');
+            } else {
+                switchView('customer');
+            }
         }
 
         function switchView(viewName) {
@@ -265,18 +551,19 @@
             if (viewName === 'customer') {
                 customerView.classList.remove('hidden');
                 adminView.classList.add('hidden');
+                
                 headerActionText.innerText = 'เข้าสู่ระบบ';
                 headerActionIcon.className = "fa-solid fa-lock mr-1";
             } else {
                 customerView.classList.add('hidden');
                 adminView.classList.remove('hidden');
+
                 if (isAdminLoggedIn) {
                     headerActionText.innerText = 'ออกจากระบบ';
                     headerActionIcon.className = "fa-solid fa-right-from-bracket mr-1";
                     document.getElementById('adminLoginCard').classList.add('hidden');
                     document.getElementById('adminDashboard').classList.remove('hidden');
-                    fetchOrdersFromCloud();
-                    startRealtimeSync();
+                    renderAdminDashboard();
                 } else {
                     headerActionText.innerText = 'กลับหน้าหลัก';
                     headerActionIcon.className = "fa-solid fa-house mr-1";
@@ -288,19 +575,38 @@
 
         function trackSocialClick(platform) {
             const now = new Date().toISOString();
-            if (platform === 'facebook') socialClicksState.facebook = now;
-            if (platform === 'instagram') socialClicksState.instagram = now;
+            if (platform === 'facebook') {
+                socialClicksState.facebook = now;
+            } else if (platform === 'instagram') {
+                socialClicksState.instagram = now;
+            }
         }
 
+        // --- IMAGE SELECTION & HANDLING ---
         function handleFileSelect(event) {
             const file = event.target.files[0];
             if (!file) return;
+
+            const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
+            if (!validTypes.includes(file.type)) {
+                alert('กรุณาเลือกไฟล์ภาพประเภท JPG, PNG หรือ WEBP เท่านั้น');
+                return;
+            }
+
+            const maxSize = 10 * 1024 * 1024;
+            if (file.size > maxSize) {
+                alert('ไฟล์ภาพมีขนาดใหญ่เกินไป (กรุณาเลือกไฟล์ขนาดไม่เกิน 10MB)');
+                return;
+            }
+
             const reader = new FileReader();
             reader.onload = function (e) {
                 selectedFileData = {
-                    name: `ramyeon_${Date.now()}.${file.name.split('.').pop()}`,
+                    name: generateSecureFileName(file.name),
+                    type: file.type,
                     dataUrl: e.target.result
                 };
+
                 document.getElementById('imagePreview').src = e.target.result;
                 document.getElementById('uploadPrompt').classList.add('hidden');
                 document.getElementById('previewContainer').classList.remove('hidden');
@@ -316,41 +622,76 @@
             document.getElementById('previewContainer').classList.add('hidden');
         }
 
-        async function submitPhoto() {
+        function generateSecureFileName(originalName) {
+            const ext = originalName.split('.').pop();
+            const timestamp = Date.now();
+            const random = Math.floor(Math.random() * 10000);
+            return `ramyeon_${timestamp}_${random}.${ext}`;
+        }
+
+        // --- SUBMIT PHOTO FORM ---
+        function submitPhoto() {
             const nameInput = document.getElementById('customerName').value.trim();
-            if (!nameInput) { alert('กรุณากรอกชื่อของคุณ'); return; }
-            if (!selectedFileData) { alert('กรุณาเลือกรูปภาพ'); return; }
+
+            if (!nameInput) {
+                alert('กรุณากรอกชื่อของคุณก่อนส่งรูปภาพ');
+                document.getElementById('customerName').focus();
+                return;
+            }
+
+            if (!selectedFileData) {
+                alert('กรุณาเลือกรูปภาพที่ต้องการพิมพ์');
+                return;
+            }
 
             const submitBtn = document.getElementById('submitBtn');
+            const progressContainer = document.getElementById('progressContainer');
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+
             submitBtn.disabled = true;
-            submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i><span>กำลังส่งข้อมูลไปยังระบบ...</span>`;
+            submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i><span>กำลังส่งรูปภาพ…</span>`;
+            progressContainer.classList.remove('hidden');
 
-            const payload = {
-                id: 'ORD-' + Date.now(),
-                customerName: nameInput,
-                image: selectedFileData.dataUrl,
-                imageName: selectedFileData.name,
-                clickedFacebook: socialClicksState.facebook ? true : false,
-                clickedInstagram: socialClicksState.instagram ? true : false,
-                deviceInfo: navigator.userAgent.includes('Mobile') ? 'Mobile' : 'Desktop'
-            };
+            let progress = 0;
+            const uploadInterval = setInterval(() => {
+                progress += 20;
+                progressBar.style.width = `${progress}%`;
+                progressText.innerText = `${progress}%`;
 
-            try {
-                await fetch(GAS_WEB_APP_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
+                if (progress >= 100) {
+                    clearInterval(uploadInterval);
 
-                document.getElementById('customerFormView').classList.add('hidden');
-                document.getElementById('thankYouView').classList.remove('hidden');
-            } catch (err) {
-                alert('เกิดข้อผิดพลาดในการเชื่อมต่อ: ' + err);
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = `<i class="fa-solid fa-paper-plane"></i><span>ส่งรูปภาพ</span>`;
-            }
+                    const now = new Date();
+                    const newSubmission = {
+                        id: 'ORD-' + Date.now(),
+                        customerName: nameInput,
+                        imageData: selectedFileData.dataUrl,
+                        fileName: selectedFileData.name,
+                        date: now.toLocaleDateString('th-TH'),
+                        time: now.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' }),
+                        rawTimestamp: now.getTime(),
+                        uploadTimestamp: now.toISOString(),
+                        clickedFacebook: socialClicksState.facebook,
+                        clickedInstagram: socialClicksState.instagram,
+                        deviceInfo: navigator.userAgent.includes('Mobile') ? 'Mobile' : 'Desktop'
+                    };
+
+                    submissions.unshift(newSubmission);
+                    localStorage.setItem('ramyeon_submissions', JSON.stringify(submissions));
+
+                    if (isAdminLoggedIn) {
+                        triggerAdminAlert(newSubmission.customerName);
+                    }
+
+                    document.getElementById('customerFormView').classList.add('hidden');
+                    document.getElementById('thankYouView').classList.remove('hidden');
+
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = `<i class="fa-solid fa-paper-plane"></i><span>ส่งรูปภาพไปยังร้าน</span>`;
+                    progressContainer.classList.add('hidden');
+                }
+            }, 150);
         }
 
         function resetCustomerForm() {
@@ -361,6 +702,294 @@
             document.getElementById('customerFormView').classList.remove('hidden');
         }
 
+        // --- AUDIO & VIBRATION & SIRI VOICE SYSTEM ---
+        function playRingtoneSound(ringtoneKey) {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                
+                if (ringtoneKey === 'bell') {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(880, ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(440, ctx.currentTime + 0.6);
+                    gain.gain.setValueAtTime(0.5, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.6);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.6);
+                } else if (ringtoneKey === 'marimba') {
+                    [523.25, 659.25, 783.99].forEach((freq, idx) => {
+                        const osc = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        osc.type = 'triangle';
+                        osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.12);
+                        gain.gain.setValueAtTime(0.4, ctx.currentTime + idx * 0.12);
+                        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + idx * 0.12 + 0.25);
+                        osc.connect(gain);
+                        gain.connect(ctx.destination);
+                        osc.start(ctx.currentTime + idx * 0.12);
+                        osc.stop(ctx.currentTime + idx * 0.12 + 0.25);
+                    });
+                } else if (ringtoneKey === 'chime') {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(1046.5, ctx.currentTime);
+                    osc.frequency.setValueAtTime(1318.5, ctx.currentTime + 0.15);
+                    gain.gain.setValueAtTime(0.3, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.5);
+                } else if (ringtoneKey === 'radar') {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(1200, ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(400, ctx.currentTime + 0.4);
+                    gain.gain.setValueAtTime(0.4, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.4);
+                } else if (ringtoneKey === 'xylophone') {
+                    [440, 554.37, 659.25, 880].forEach((freq, idx) => {
+                        const osc = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.1);
+                        gain.gain.setValueAtTime(0.3, ctx.currentTime + idx * 0.1);
+                        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + idx * 0.1 + 0.2);
+                        osc.connect(gain);
+                        gain.connect(ctx.destination);
+                        osc.start(ctx.currentTime + idx * 0.1);
+                        osc.stop(ctx.currentTime + idx * 0.1 + 0.2);
+                    });
+                } else if (ringtoneKey === 'arcade') {
+                    [330, 440, 554.37, 659.25].forEach((freq, idx) => {
+                        const osc = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        osc.type = 'square';
+                        osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.08);
+                        gain.gain.setValueAtTime(0.2, ctx.currentTime + idx * 0.08);
+                        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + idx * 0.08 + 0.15);
+                        osc.connect(gain);
+                        gain.connect(ctx.destination);
+                        osc.start(ctx.currentTime + idx * 0.08);
+                        osc.stop(ctx.currentTime + idx * 0.08 + 0.15);
+                    });
+                } else if (ringtoneKey === 'harp') {
+                    [523.25, 587.33, 659.25, 783.99, 880, 1046.5].forEach((freq, idx) => {
+                        const osc = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        osc.type = 'triangle';
+                        osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.07);
+                        gain.gain.setValueAtTime(0.25, ctx.currentTime + idx * 0.07);
+                        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + idx * 0.07 + 0.2);
+                        osc.connect(gain);
+                        gain.connect(ctx.destination);
+                        osc.start(ctx.currentTime + idx * 0.07);
+                        osc.stop(ctx.currentTime + idx * 0.07 + 0.2);
+                    });
+                } else if (ringtoneKey === 'bubble') {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(300, ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(900, ctx.currentTime + 0.25);
+                    gain.gain.setValueAtTime(0.3, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.25);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.25);
+                } else if (ringtoneKey === 'gong') {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(150, ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(80, ctx.currentTime + 1.2);
+                    gain.gain.setValueAtTime(0.6, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 1.2);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 1.2);
+                } else if (ringtoneKey === 'whistle') {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(2000, ctx.currentTime);
+                    osc.frequency.linearRampToValueAtTime(2800, ctx.currentTime + 0.2);
+                    osc.frequency.linearRampToValueAtTime(2200, ctx.currentTime + 0.4);
+                    gain.gain.setValueAtTime(0.3, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.4);
+                } else if (ringtoneKey === 'piano') {
+                    [261.63, 329.63, 392.00, 523.25].forEach((freq, idx) => {
+                        const osc = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        osc.type = 'triangle';
+                        osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.08);
+                        gain.gain.setValueAtTime(0.35, ctx.currentTime + idx * 0.08);
+                        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + idx * 0.08 + 0.3);
+                        osc.connect(gain);
+                        gain.connect(ctx.destination);
+                        osc.start(ctx.currentTime + idx * 0.08);
+                        osc.stop(ctx.currentTime + idx * 0.08 + 0.3);
+                    });
+                } else if (ringtoneKey === 'trumpet') {
+                    [440, 554.37, 659.25, 880].forEach((freq, idx) => {
+                        const osc = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        osc.type = 'sawtooth';
+                        osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.1);
+                        gain.gain.setValueAtTime(0.2, ctx.currentTime + idx * 0.1);
+                        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + idx * 0.1 + 0.25);
+                        osc.connect(gain);
+                        gain.connect(ctx.destination);
+                        osc.start(ctx.currentTime + idx * 0.1);
+                        osc.stop(ctx.currentTime + idx * 0.1 + 0.25);
+                    });
+                } else {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(600, ctx.currentTime);
+                    gain.gain.setValueAtTime(0.2, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.2);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.2);
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function playAudioFromBase64(base64Str) {
+            try {
+                const audio = new Audio(base64Str);
+                audio.play().catch(e => console.log('Audio autoplay blocked', e));
+            } catch(e) {}
+        }
+
+        function speakSiriVoice(textToSpeak) {
+            if (!window.speechSynthesis) return;
+            try {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(textToSpeak);
+                utterance.lang = 'th-TH';
+                utterance.rate = 1.0;
+                utterance.pitch = 1.1;
+                window.speechSynthesis.speak(utterance);
+            } catch(e) {}
+        }
+
+        function triggerVibrationByMode(mode) {
+            if (!("vibrate" in navigator)) return;
+            try {
+                if (mode === 'pattern1') {
+                    navigator.vibrate([300, 150, 300, 150, 400]);
+                } else if (mode === 'pattern2') {
+                    navigator.vibrate([100, 80, 100, 80, 100, 80, 300]);
+                } else if (mode === 'pattern3') {
+                    navigator.vibrate([800, 300, 800]);
+                } else if (mode === 'off') {
+                    navigator.vibrate(0);
+                }
+            } catch(e) {}
+        }
+
+        function onRingtoneDropdownChange(ringtoneKey) {
+            playRingtoneSound(ringtoneKey);
+        }
+
+        function handleAlertModeChange() {
+            const mode = document.getElementById('settingAlertMode').value;
+            const ringtoneDiv = document.getElementById('modeRingtoneContainer');
+            const customDiv = document.getElementById('modeCustomContainer');
+            const siriDiv = document.getElementById('modeSiriContainer');
+
+            ringtoneDiv.classList.add('hidden');
+            customDiv.classList.add('hidden');
+            siriDiv.classList.add('hidden');
+
+            if (mode === 'ringtone') {
+                ringtoneDiv.classList.remove('hidden');
+            } else if (mode === 'custom') {
+                customDiv.classList.remove('hidden');
+            } else if (mode === 'siri') {
+                siriDiv.classList.remove('hidden');
+            }
+        }
+
+        function testCurrentNotificationSetting() {
+            const mode = document.getElementById('settingAlertMode').value;
+            const vibrateMode = document.getElementById('settingVibrateMode').value;
+
+            if (mode === 'ringtone') {
+                const ringtoneKey = document.getElementById('settingRingtone').value;
+                playRingtoneSound(ringtoneKey);
+            } else if (mode === 'custom') {
+                if (tempCustomAudioBase64) {
+                    playAudioFromBase64(tempCustomAudioBase64);
+                } else if (adminSettings.customAudioBase64) {
+                    playAudioFromBase64(adminSettings.customAudioBase64);
+                } else {
+                    alert('ยังไม่ได้อัปโหลดไฟล์เสียง/วิดีโอส่วนตัว กรุณาเลือกไฟล์ก่อนทดสอบ');
+                }
+            } else if (mode === 'siri') {
+                const textTemplate = document.getElementById('settingSiriText').value || 'มีออเดอร์ใหม่จากคุณ {name} ครับ';
+                const sampleText = textTemplate.replace('{name}', 'น้องซัมซัมยัง');
+                speakSiriVoice(sampleText);
+            } else if (mode === 'silent') {
+                // Silent
+            }
+
+            triggerVibrationByMode(vibrateMode);
+        }
+
+        function triggerAdminAlert(customerName) {
+            const mode = adminSettings.alertMode || 'ringtone';
+
+            if (mode === 'ringtone') {
+                playRingtoneSound(adminSettings.ringtone || 'bell');
+            } else if (mode === 'custom') {
+                if (adminSettings.customAudioBase64) {
+                    playAudioFromBase64(adminSettings.customAudioBase64);
+                } else {
+                    playRingtoneSound('bell');
+                }
+            } else if (mode === 'siri') {
+                const template = adminSettings.siriText || 'มีออเดอร์ใหม่จากคุณ {name} ครับ';
+                const finalSpeech = template.replace('{name}', customerName);
+                setTimeout(() => {
+                    speakSiriVoice(finalSpeech);
+                }, 300);
+            } else if (mode === 'silent') {
+                // Silent
+            }
+
+            triggerVibrationByMode(adminSettings.vibrateMode || 'pattern1');
+
+            if ("Notification" in window && Notification.permission === "granted") {
+                new Notification("มีลูกค้าส่งรูปใหม่", {
+                    body: `ลูกค้า: ${customerName}`,
+                    icon: adminSettings.logoUrl || ''
+                });
+            }
+        }
+
+        // --- ADMIN LOGIN & LOGIC ---
         function loginAdmin() {
             const pass = document.getElementById('adminPassword').value;
             if (pass === adminSettings.password) {
@@ -370,78 +999,279 @@
                 document.getElementById('adminDashboard').classList.remove('hidden');
                 document.getElementById('loginError').classList.add('hidden');
                 document.getElementById('adminPassword').value = '';
-                switchView('admin');
+                
+                const headerActionText = document.getElementById('headerActionText');
+                const headerActionIcon = document.getElementById('headerActionIcon');
+                headerActionText.innerText = 'ออกจากระบบ';
+                headerActionIcon.className = "fa-solid fa-right-from-bracket mr-1";
+
+                renderAdminDashboard();
             } else {
                 document.getElementById('loginError').classList.remove('hidden');
             }
         }
 
-        async function fetchOrdersFromCloud() {
-            if (!GAS_WEB_APP_URL || GAS_WEB_APP_URL.includes("YOUR_")) return;
-            try {
-                const response = await fetch(GAS_WEB_APP_URL);
-                const result = await response.json();
-                if (result.status === 'success') {
-                    submissions = result.data;
-                    renderAdminDashboard();
-                }
-            } catch (e) {
-                console.error("Fetch error:", e);
-            }
-        }
-
-        function startRealtimeSync() {
-            if (realtimeSyncInterval) clearInterval(realtimeSyncInterval);
-            realtimeSyncInterval = setInterval(() => {
-                if (isAdminLoggedIn) {
-                    fetchOrdersFromCloud();
-                }
-            }, 5000); // ดึงข้อมูลใหม่ทุก 5 วินาที
-        }
-
-        function stopRealtimeSync() {
-            if (realtimeSyncInterval) clearInterval(realtimeSyncInterval);
-        }
-
         function renderAdminDashboard() {
-            const total = submissions.length;
-            const fbCount = submissions.filter(i => i.clickedFacebook).length;
-            const igCount = submissions.filter(i => i.clickedInstagram).length;
+            renderAdminStats();
+            renderOrdersList();
+        }
+
+        function refreshOrdersList() {
+            submissions = JSON.parse(localStorage.getItem('ramyeon_submissions') || '[]');
+            renderAdminDashboard();
+        }
+
+        function renderAdminStats() {
+            const filter = document.getElementById('statFilter').value;
+            const now = new Date();
+
+            let filtered = submissions.filter(item => {
+                const itemDate = new Date(item.rawTimestamp);
+                if (filter === 'today') {
+                    return itemDate.toDateString() === now.toDateString();
+                } else if (filter === 'yesterday') {
+                    const yday = new Date(now);
+                    yday.setDate(now.getDate() - 1);
+                    return itemDate.toDateString() === yday.toDateString();
+                } else if (filter === '7days') {
+                    const diffTime = Math.abs(now - itemDate);
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                    return diffDays <= 7;
+                }
+                return true;
+            });
+
+            const total = filtered.length;
+            const fbCount = filtered.filter(i => i.clickedFacebook).length;
+            const igCount = filtered.filter(i => i.clickedInstagram).length;
 
             document.getElementById('statTotal').innerText = total;
             document.getElementById('statFB').innerText = fbCount;
             document.getElementById('statIG').innerText = igCount;
+        }
 
+        function renderOrdersList() {
             const container = document.getElementById('ordersList');
             document.getElementById('orderCountBadge').innerText = `${submissions.length} รายการ`;
 
             if (submissions.length === 0) {
-                container.innerHTML = `<div class="bg-white rounded-2xl p-8 text-center text-gray-400"><p>ยังไม่มีรายการส่งรูปจากลูกค้า</p></div>`;
+                container.innerHTML = `
+                    <div class="bg-white rounded-2xl p-8 text-center text-gray-400 space-y-2">
+                        <i class="fa-solid fa-inbox text-4xl"></i>
+                        <p>ยังไม่มีรายการส่งรูปจากลูกค้า</p>
+                    </div>`;
                 return;
             }
 
             container.innerHTML = submissions.map(item => `
                 <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex flex-col sm:flex-row items-center gap-4">
-                    <div class="w-full sm:w-28 h-36 bg-gray-100 rounded-xl overflow-hidden flex-shrink-0">
-                        <img src="${item.imageData}" alt="${item.customerName}" class="w-full h-full object-cover">
+                    <div class="w-full sm:w-28 h-36 bg-gray-100 rounded-xl overflow-hidden flex-shrink-0 relative group">
+                        <img src="${item.imageData}" alt="${escapeHtml(item.customerName)}" class="w-full h-full object-cover">
                     </div>
+
                     <div class="flex-grow w-full space-y-2 text-left">
                         <div class="flex justify-between items-start">
                             <div>
-                                <h4 class="font-bold text-gray-800 text-base">${item.customerName}</h4>
+                                <h4 class="font-bold text-gray-800 text-base">${escapeHtml(item.customerName)}</h4>
                                 <p class="text-xs text-gray-400">${item.date} เวลา ${item.time} น.</p>
                             </div>
+                            <button onclick="openDetailModal('${item.id}')" class="text-xs bg-gray-100 text-gray-700 hover:bg-gray-200 px-2.5 py-1 rounded-lg font-medium">
+                                รายละเอียด
+                            </button>
                         </div>
+
                         <div class="flex items-center space-x-2 text-xs">
-                            <span class="px-2 py-0.5 rounded-md ${item.clickedFacebook ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-400'}">Facebook</span>
-                            <span class="px-2 py-0.5 rounded-md ${item.clickedInstagram ? 'bg-pink-100 text-pink-700' : 'bg-gray-100 text-gray-400'}">Instagram</span>
+                            <span class="px-2 py-0.5 rounded-md ${item.clickedFacebook ? 'bg-blue-100 text-blue-700 font-semibold' : 'bg-gray-100 text-gray-400'}">
+                                ${item.clickedFacebook ? 'FB กดแล้ว' : 'FB ยังไม่กด'}
+                            </span>
+                            <span class="px-2 py-0.5 rounded-md ${item.clickedInstagram ? 'bg-pink-100 text-pink-700 font-semibold' : 'bg-gray-100 text-gray-400'}">
+                                ${item.clickedInstagram ? 'IG กดแล้ว' : 'IG ยังไม่กด'}
+                            </span>
                         </div>
+
                         <div class="flex items-center space-x-2 pt-2 border-t border-gray-50">
-                            <a href="${item.imageData}" target="_blank" class="flex-1 bg-brand-red text-white text-xs py-2 rounded-xl font-semibold text-center hover:bg-brand-redDark transition">เปิดรูปภาพต้นฉบับ</a>
+                            <a href="${item.imageData}" download="${item.fileName}" class="flex-1 bg-brand-red text-white text-xs py-2 rounded-xl font-semibold text-center hover:bg-brand-redDark transition flex items-center justify-center space-x-1">
+                                <i class="fa-solid fa-download"></i>
+                                <span>ดาวน์โหลด</span>
+                            </a>
+                            <button onclick="sharePhoto('${escapeHtml(item.customerName)}', '${item.id}')" class="flex-1 bg-gray-800 text-white text-xs py-2 rounded-xl font-semibold text-center hover:bg-black transition flex items-center justify-center space-x-1">
+                                <i class="fa-solid fa-share-nodes"></i>
+                                <span>แชร์รูป</span>
+                            </button>
+                            <button onclick="deleteSubmission('${item.id}')" class="px-3 py-2 text-gray-400 hover:text-red-500 rounded-xl transition">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
             `).join('');
+        }
+
+        function openExternalUrl(type) {
+            if (type === 'drive') {
+                let targetUrl = adminSettings.driveUrl;
+                if (!targetUrl || targetUrl.trim() === '') {
+                    targetUrl = 'https://drive.google.com/drive/search?q=ramyeonssam';
+                }
+                window.open(targetUrl, '_blank');
+            } else if (type === 'sheet') {
+                let targetUrl = adminSettings.sheetUrl;
+                if (!targetUrl || targetUrl.trim() === '') {
+                    targetUrl = 'https://docs.google.com/spreadsheets/u/0/';
+                }
+                window.open(targetUrl, '_blank');
+            }
+        }
+
+        async function sharePhoto(customerName, id) {
+            const item = submissions.find(s => s.id === id);
+            if (!item) return;
+
+            if (navigator.share) {
+                try {
+                    const blob = await (await fetch(item.imageData)).blob();
+                    const file = new File([blob], item.fileName, { type: item.imageData.split(';')[0].split(':')[1] });
+
+                    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                        await navigator.share({
+                            title: `รูปภาพของ ${customerName}`,
+                            text: `รูปพรินต์ร้าน Ramyeon ssam จากลูกค้า: ${customerName}`,
+                            files: [file]
+                        });
+                        return;
+                    }
+                } catch (e) { }
+            }
+
+            const a = document.createElement('a');
+            a.href = item.imageData;
+            a.download = item.fileName;
+            a.click();
+            alert('เบราว์เซอร์ไม่รองรับ Web Share โดยตรง ระบบทำการดาวน์โหลดไฟล์ให้แล้ว');
+        }
+
+        function deleteSubmission(id) {
+            if (confirm('คุณต้องการลบรายการนี้ใช่หรือไม่?')) {
+                submissions = submissions.filter(s => s.id !== id);
+                localStorage.setItem('ramyeon_submissions', JSON.stringify(submissions));
+                renderAdminDashboard();
+            }
+        }
+
+        function openDetailModal(id) {
+            const item = submissions.find(s => s.id === id);
+            if (!item) return;
+
+            const formatTime = (ts) => ts ? new Date(ts).toLocaleTimeString('th-TH') : 'ไม่ได้กด';
+
+            document.getElementById('detailContent').innerHTML = `
+                <div class="text-center mb-3">
+                    <img src="${item.imageData}" class="max-h-48 mx-auto rounded-xl shadow border">
+                </div>
+                <div class="space-y-2 border-t pt-2">
+                    <p><strong>ชื่อลูกค้า:</strong> ${escapeHtml(item.customerName)}</p>
+                    <p><strong>รหัสรายการ:</strong> ${item.id}</p>
+                    <p><strong>วันที่ส่ง:</strong> ${item.date} (${item.time} น.)</p>
+                    <p><strong>เวลากด Facebook:</strong> ${formatTime(item.clickedFacebook)}</p>
+                    <p><strong>เวลากด Instagram:</strong> ${formatTime(item.clickedInstagram)}</p>
+                    <p><strong>อุปกรณ์:</strong> ${item.deviceInfo}</p>
+                </div>
+            `;
+            document.getElementById('detailModal').classList.remove('hidden');
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detailModal').classList.add('hidden');
+        }
+
+        function handleLogoUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    tempLogoBase64 = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function openSettingsModal() {
+            tempLogoBase64 = null;
+            tempCustomAudioBase64 = null;
+            document.getElementById('settingDriveUrl').value = adminSettings.driveUrl || '';
+            document.getElementById('settingSheetUrl').value = adminSettings.sheetUrl || '';
+            document.getElementById('settingLogoUrl').value = adminSettings.logoUrl || '';
+            document.getElementById('settingLogoFile').value = '';
+            document.getElementById('settingAudioFile').value = '';
+            
+            const savedMode = adminSettings.alertMode || 'ringtone';
+            document.getElementById('settingAlertMode').value = savedMode;
+            document.getElementById('settingRingtone').value = adminSettings.ringtone || 'bell';
+            document.getElementById('settingSiriText').value = adminSettings.siriText || 'มีออเดอร์ใหม่จากคุณ {name} ครับ';
+            document.getElementById('settingVibrateMode').value = adminSettings.vibrateMode || 'pattern1';
+            document.getElementById('settingNewPass').value = '';
+
+            handleAlertModeChange();
+            document.getElementById('settingsModal').classList.remove('hidden');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const audioInput = document.getElementById('settingAudioFile');
+            if (audioInput) {
+                audioInput.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(evt) {
+                            tempCustomAudioBase64 = evt.target.result;
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+        });
+
+        function closeSettingsModal() {
+            document.getElementById('settingsModal').classList.add('hidden');
+        }
+
+        function saveAdminSettings() {
+            const driveUrl = document.getElementById('settingDriveUrl').value.trim();
+            const sheetUrl = document.getElementById('settingSheetUrl').value.trim();
+            const logoUrl = document.getElementById('settingLogoUrl').value.trim();
+            const alertMode = document.getElementById('settingAlertMode').value;
+            const ringtone = document.getElementById('settingRingtone').value;
+            const siriText = document.getElementById('settingSiriText').value.trim();
+            const vibrateMode = document.getElementById('settingVibrateMode').value;
+            const newPass = document.getElementById('settingNewPass').value.trim();
+
+            adminSettings.driveUrl = driveUrl;
+            adminSettings.sheetUrl = sheetUrl;
+            adminSettings.alertMode = alertMode;
+            adminSettings.ringtone = ringtone;
+            adminSettings.siriText = siriText;
+            adminSettings.vibrateMode = vibrateMode;
+
+            if (tempLogoBase64) {
+                adminSettings.logoUrl = tempLogoBase64;
+            } else if (logoUrl) {
+                adminSettings.logoUrl = logoUrl;
+            }
+
+            if (tempCustomAudioBase64) {
+                adminSettings.customAudioBase64 = tempCustomAudioBase64;
+            }
+
+            if (newPass) adminSettings.password = newPass;
+
+            localStorage.setItem('ramyeon_settings', JSON.stringify(adminSettings));
+            applyLogoSettings();
+            closeSettingsModal();
+            alert('บันทึกการตั้งค่าระบบเรียบร้อยแล้ว!');
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
         }
     </script>
 </body>
