@@ -1,293 +1,631 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="th">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Ramyeon ssam - ระบบรับรูปพรินต์ลูกค้า</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-body{font-family:Prompt,sans-serif;background:#f7fafc}
-.bg-instagram{background:linear-gradient(45deg,#f09433,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888)}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ramyeon ssam - ระบบรับรูปพรินต์ลูกค้า</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            red: '#E53E3E',
+                            redDark: '#9B2C2C',
+                            redLight: '#FFF5F5',
+                            yellow: '#ECC94B',
+                            black: '#1A202C'
+                        }
+                    },
+                    fontFamily: {
+                        thai: ['Prompt', 'Kanit', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #F7FAFC;
+        }
+        .bg-instagram {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+        @keyframes scaleUp {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .animate-scale-up {
+            animation: scaleUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        @keyframes checkmark {
+            0% { stroke-dashoffset: 100; }
+            100% { stroke-dashoffset: 0; }
+        }
+        .animate-checkmark {
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            animation: checkmark 0.6s ease-in-out forwards 0.2s;
+        }
+    </style>
 </head>
-<body class="min-h-screen bg-gray-100 text-gray-800">
-<header class="sticky top-0 z-50 bg-[#E53E3E] text-white shadow">
- <div class="max-w-4xl mx-auto p-3 flex justify-between items-center">
-  <button onclick="showCustomer()" class="flex items-center gap-2">
-   <img id="logo1" class="w-11 h-11 rounded-full object-cover bg-white border-2 border-yellow-300">
-   <b class="text-xl">Ramyeon ssam</b>
-  </button>
-  <button id="headBtn" onclick="showAdmin()" class="bg-[#9B2C2C] px-3 py-2 rounded-full text-sm">
-   <i class="fa-solid fa-lock"></i> เข้าสู่ระบบ
-  </button>
- </div>
-</header>
+<body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col justify-between">
 
-<main class="max-w-xl mx-auto p-4">
-<section id="customer" class="space-y-5">
- <div class="bg-white rounded-2xl p-6 shadow text-center">
-  <img id="logo2" class="w-20 h-20 rounded-full mx-auto object-cover border-2 border-yellow-300">
-  <h1 class="text-2xl font-bold text-[#E53E3E] mt-3">ระบบรับรูปพรินต์ลูกค้า</h1>
-  <p class="text-sm text-gray-500">ติดตาม Facebook และ Instagram ของร้านก่อนส่งรูป</p>
-  <div class="grid grid-cols-2 gap-3 mt-4">
-   <a id="fb" target="_blank" class="bg-[#1877F2] text-white p-3 rounded-xl font-semibold" onclick="clickSocial('facebook')">
-    <i class="fa-brands fa-facebook"></i> Facebook
-   </a>
-   <a id="ig" target="_blank" class="bg-instagram text-white p-3 rounded-xl font-semibold" onclick="clickSocial('instagram')">
-    <i class="fa-brands fa-instagram"></i> Instagram
-   </a>
-  </div>
- </div>
+    <!-- Top Navigation / Header -->
+    <header class="bg-brand-red text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div id="logoContainer" class="flex items-center space-x-2 cursor-pointer" onclick="returnToMainOrCustomer()">
+                <div id="restaurantLogo" class="w-12 h-12 bg-white text-brand-red font-bold rounded-full flex items-center justify-center border-2 border-brand-yellow shadow overflow-hidden">
+                    <img id="logoImg" src="https://lh3.googleusercontent.com/d/1avrpH8b5iRnkjaL7LYaksy7vf1P2h2H7" alt="Ramyeon ssam Logo" class="w-full h-full object-cover">
+                </div>
+                <span class="font-bold text-xl tracking-wide">Ramyeon ssam</span>
+            </div>
+            <div class="flex items-center space-x-2">
+                <button id="headerActionBtn" onclick="handleHeaderAction()" class="px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold bg-brand-redDark text-white hover:bg-black transition shadow">
+                    <i id="headerActionIcon" class="fa-solid fa-lock mr-1"></i> <span id="headerActionText">เข้าสู่ระบบ</span>
+                </button>
+            </div>
+        </div>
+    </header>
 
- <div id="customerForm" class="space-y-5">
-  <div class="bg-white rounded-2xl p-5 shadow">
-   <b>ขั้นตอนที่ 1 — โปรดระบุชื่อลูกค้า *</b>
-   <input id="name" class="w-full mt-3 border rounded-xl p-3 outline-none focus:ring-2 focus:ring-red-400" placeholder="เช่น น้องซัมซัมยัง">
-  </div>
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="max-w-xl mx-auto w-full p-4 flex-grow">
 
-  <div class="bg-white rounded-2xl p-5 shadow">
-   <b>ขั้นตอนที่ 2 — อัปโหลดรูปภาพ *</b>
-   <input id="file" type="file" accept="image/jpeg,image/png,image/webp" class="w-full mt-3 text-sm">
-   <img id="preview" class="hidden max-h-72 mx-auto mt-4 rounded-xl shadow object-contain">
-   <p class="text-xs text-gray-400 mt-2">JPG, PNG, WEBP ไม่เกิน 10MB</p>
-  </div>
+        <!-- CUSTOMER SECTION -->
+        <section id="customerView" class="space-y-6">
+            <div id="customerFormView" class="space-y-6 animate-scale-up">
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-red-100 text-center space-y-3">
+                    <div class="w-20 h-20 mx-auto rounded-full border-2 border-brand-yellow shadow-md overflow-hidden bg-brand-redLight">
+                        <img id="bannerLogoImg" src="https://lh3.googleusercontent.com/d/1avrpH8b5iRnkjaL7LYaksy7vf1P2h2H7" alt="Logo" class="w-full h-full object-cover">
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-brand-red mb-1">ระบบรับรูปพรินต์ลูกค้า</h1>
+                        <p class="text-sm text-gray-600">ติดตามเพจ Facebook และ Instagram ค้นหา <span class="font-semibold text-brand-red">‘ramyeonssam’</span></p>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-3 pt-2">
+                        <a href="https://www.facebook.com/profile.php?id=61592560921596" target="_blank" onclick="trackSocialClick('facebook')" class="flex items-center justify-center space-x-2 bg-[#1877F2] text-white py-2.5 px-4 rounded-xl font-medium shadow hover:opacity-90 transition active:scale-95">
+                            <i class="fa-brands fa-facebook text-xl"></i>
+                            <div class="text-left text-xs leading-tight">
+                                <span class="block text-[10px] opacity-80">ติดตามเพจ</span>
+                                <span class="font-bold">Ramyeon ssam</span>
+                            </div>
+                        </a>
+                        <a href="https://www.instagram.com/ramyeonssam?igsh=b2kyMXJuNjZweGZw" target="_blank" onclick="trackSocialClick('instagram')" class="flex items-center justify-center space-x-2 bg-instagram text-white py-2.5 px-4 rounded-xl font-medium shadow hover:opacity-90 transition active:scale-95">
+                            <i class="fa-brands fa-instagram text-xl"></i>
+                            <div class="text-left text-xs leading-tight">
+                                <span class="block text-[10px] opacity-80">ติดตาม IG</span>
+                                <span class="font-bold">Ramyeon ssam</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
 
-  <button id="send" onclick="submitPhoto()" class="w-full bg-[#E53E3E] text-white py-4 rounded-2xl text-lg font-bold shadow">
-   <i class="fa-solid fa-paper-plane"></i> ส่งรูปภาพ
-  </button>
- </div>
+                <!-- Step 1 -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 space-y-3">
+                    <label for="customerName" class="block font-bold text-gray-800 text-base">
+                        <span class="inline-block bg-brand-red text-white text-xs px-2 py-0.5 rounded-full mr-1">ขั้นตอนที่ 1</span>
+                        โปรดระบุชื่อลูกค้า <span class="text-brand-red">*</span>
+                    </label>
+                    <input type="text" id="customerName" placeholder="กรอกชื่อของคุณ (เช่น น้องซัมซัมยัง)" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-red focus:border-brand-red outline-none transition text-base">
+                </div>
 
- <div id="success" class="hidden bg-white rounded-2xl p-8 shadow text-center">
-  <div class="text-6xl text-green-500">✓</div>
-  <h2 class="text-2xl font-bold mt-3">ส่งรูปเรียบร้อยแล้ว</h2>
-  <p class="text-gray-500 mt-2">ขอบคุณที่มาอุดหนุนนะค้าบบบ</p>
-  <button onclick="resetForm()" class="mt-6 text-[#E53E3E] font-semibold">← ส่งรูปใหม่</button>
- </div>
-</section>
+                <!-- Step 2 -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 space-y-4">
+                    <div>
+                        <label class="block font-bold text-gray-800 text-base">
+                            <span class="inline-block bg-brand-red text-white text-xs px-2 py-0.5 rounded-full mr-1">ขั้นตอนที่ 2</span>
+                            อัปโหลดรูปภาพของคุณ <span class="text-brand-red">*</span>
+                        </label>
+                        <p class="text-xs text-gray-500 mt-1">รูปน้องหมา น้องแมว รูปคู่เพื่อน หวานใจ หรือรูปอื่นๆ</p>
+                    </div>
 
-<section id="admin" class="hidden space-y-5">
- <div id="login" class="bg-white rounded-2xl p-6 shadow max-w-sm mx-auto">
-  <h2 class="text-xl font-bold text-center">เข้าสู่ระบบแอดมิน</h2>
-  <input id="pin" type="password" class="w-full border rounded-xl p-3 mt-4 text-center" placeholder="รหัสผ่าน">
-  <button onclick="login()" class="w-full bg-[#E53E3E] text-white p-3 rounded-xl mt-3 font-bold">เข้าสู่ระบบ</button>
-  <p id="loginError" class="hidden text-red-500 text-sm text-center mt-2">ว็ายตายแล๊ว...รหัสผ่านไม่ถูกต้อง</p>
- </div>
+                    <div id="uploadBox" class="border-2 border-dashed border-red-200 rounded-2xl p-6 text-center bg-red-50/30 hover:bg-red-50/80 transition cursor-pointer relative" onclick="document.getElementById('fileInput').click()">
+                        <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" class="hidden" onchange="handleFileSelect(event)">
+                        
+                        <div id="uploadPrompt" class="space-y-2 py-4">
+                            <div class="w-16 h-16 bg-red-100 text-brand-red rounded-full flex items-center justify-center mx-auto text-2xl mb-2">
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                            </div>
+                            <p class="font-semibold text-gray-700">แตะเพื่อเลือกรูปภาพ หรือ ถ่ายรูป</p>
+                            <p class="text-xs text-gray-400">รองรับไฟล์ JPG, PNG, WEBP (ขนาดไม่เกิน 10MB)</p>
+                        </div>
 
- <div id="dashboard" class="hidden space-y-5">
-  <div class="bg-white rounded-2xl p-5 shadow">
-   <div class="flex justify-between items-center">
-    <h2 class="font-bold text-lg">ภาพรวมสถิติ</h2>
-    <button onclick="loadOrders()" class="bg-gray-200 px-3 py-2 rounded-lg text-sm">รีเฟรช</button>
-   </div>
-   <div class="grid grid-cols-3 gap-2 mt-4 text-center">
-    <div class="bg-red-50 p-3 rounded-xl"><small>ลูกค้าทั้งหมด</small><b id="total" class="block text-xl text-red-600">0</b></div>
-    <div class="bg-blue-50 p-3 rounded-xl"><small>Facebook</small><b id="fbCount" class="block text-xl text-blue-600">0</b></div>
-    <div class="bg-pink-50 p-3 rounded-xl"><small>Instagram</small><b id="igCount" class="block text-xl text-pink-600">0</b></div>
-   </div>
-  </div>
+                        <div id="previewContainer" class="hidden relative">
+                            <img id="imagePreview" src="" alt="Preview" class="max-h-64 mx-auto rounded-xl shadow-md border border-gray-200 object-contain">
+                            <div class="mt-4 flex justify-center space-x-3">
+                                <button type="button" onclick="event.stopPropagation(); removeSelectedImage();" class="px-3 py-1.5 bg-gray-200 hover:bg-red-100 text-red-600 rounded-lg text-xs font-semibold transition flex items-center">
+                                    <i class="fa-solid fa-trash mr-1"></i> ลบรูป
+                                </button>
+                                <button type="button" onclick="event.stopPropagation(); document.getElementById('fileInput').click();" class="px-3 py-1.5 bg-brand-red text-white rounded-lg text-xs font-semibold hover:bg-brand-redDark transition flex items-center">
+                                    <i class="fa-solid fa-arrows-rotate mr-1"></i> เปลี่ยนรูป
+                                </button>
+                            </div>
+                        </div>
+                    </div>
 
-  <div class="bg-gray-800 text-white rounded-2xl p-5 space-y-3">
-   <b>เครื่องมือแอดมิน</b>
-   <div class="grid grid-cols-2 gap-2">
-    <button onclick="openDrive()" class="bg-gray-700 p-3 rounded-xl"><i class="fa-brands fa-google-drive"></i> Drive</button>
-    <button onclick="openSheet()" class="bg-gray-700 p-3 rounded-xl"><i class="fa-solid fa-table"></i> Sheets</button>
-   </div>
-   <button onclick="changePin()" class="w-full bg-[#E53E3E] p-3 rounded-xl">เปลี่ยนรหัสผ่าน</button>
-  </div>
+                    <div id="progressContainer" class="hidden space-y-1">
+                        <div class="flex justify-between text-xs text-gray-600 font-semibold">
+                            <span>กำลังอัปโหลดไปยัง Google Drive...</span>
+                            <span id="progressText">0%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden">
+                            <div id="progressBar" class="bg-brand-red h-2.5 rounded-full transition-all duration-200" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
 
-  <div>
-   <h3 class="font-bold mb-3">รูปจากลูกค้า</h3>
-   <div id="orders" class="space-y-4"></div>
-  </div>
- </div>
-</section>
-</main>
+                <button id="submitBtn" onclick="submitPhoto()" class="w-full bg-brand-red text-white py-4 rounded-2xl font-bold text-lg shadow-lg hover:bg-brand-redDark active:scale-95 transition duration-150 flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    <span>ส่งรูปภาพ</span>
+                </button>
+            </div>
 
-<script>
-/* 1) หลัง Deploy Apps Script ให้นำ URL /exec มาใส่ตรงนี้ */
-const API_URL = 'https://script.google.com/macros/s/AKfycbxM7YhBfL-zDb4tSmZ1LH5RkBBtWyR7_PZK2GFfCqTmM6OdThXdJg3jmH36QqKBf2-qbA/exec';
+            <!-- Thank You View -->
+            <div id="thankYouView" class="hidden bg-white rounded-2xl p-8 shadow-md border border-gray-100 text-center space-y-6 animate-scale-up">
+                <div class="w-24 h-24 mx-auto bg-green-100 rounded-full flex items-center justify-center p-2">
+                    <svg class="w-16 h-16 text-green-500" viewBox="0 0 52 52">
+                        <circle class="text-green-200" stroke-width="4" stroke="currentColor" fill="none" cx="26" cy="26" r="23"/>
+                        <path class="animate-checkmark text-green-500" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor" d="M14 27l7 7 16-16"/>
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-2">ส่งรูปเรียบร้อยแล้ว</h2>
+                    <p class="text-gray-600 text-sm">ระบบได้บันทึกรูปภาพลง Google Drive และ Google Sheets เรียบร้อยครับ</p>
+                </div>
+                <div class="pt-4 border-t border-gray-100 space-y-4">
+                    <button onclick="resetCustomerForm()" class="mt-2 inline-flex items-center text-brand-red font-semibold text-sm hover:underline">
+                        <i class="fa-solid fa-arrow-left mr-2"></i> ส่งรูปเพิ่มอีกครั้ง
+                    </button>
+                </div>
+            </div>
+        </section>
 
-const LOGO_URL = 'https://lh3.googleusercontent.com/d/1avrpH8b5iRnkjaL7LYaksy7vf1P2h2H7';
-const FB_URL = 'https://www.facebook.com/profile.php?id=61592560921596';
-const IG_URL = 'https://www.instagram.com/ramyeonssam?igsh=b2kyMXJuNjZweGZw';
+        <!-- ADMIN SECTION -->
+        <section id="adminView" class="hidden space-y-6">
+            <div id="adminLoginCard" class="bg-white rounded-2xl p-6 shadow-md border border-gray-100 max-w-sm mx-auto space-y-4 animate-scale-up">
+                <div class="text-center space-y-2">
+                    <h2 class="text-xl font-bold text-gray-800">เข้าสู่ระบบแอดมิน</h2>
+                    <p class="text-xs text-gray-500">สำหรับเจ้าหน้าที่ร้าน Ramyeon ssam เท่านั้น</p>
+                </div>
+                <div class="space-y-3">
+                    <input type="password" id="adminPassword" placeholder="กรอกรหัสผ่าน" class="w-full px-4 py-2.5 border border-gray-300 rounded-xl outline-none text-center text-lg">
+                    <button onclick="loginAdmin()" class="w-full bg-brand-red text-white py-2.5 rounded-xl font-bold shadow hover:bg-brand-redDark transition">
+                        เข้าสู่ระบบ
+                    </button>
+                    <p id="loginError" class="text-xs text-red-500 text-center hidden">รหัสผ่านไม่ถูกต้อง!</p>
+                </div>
+            </div>
 
-let pinSession = sessionStorage.getItem('ramyeon_pin') || '';
-let social = {facebook:'',instagram:''};
-let orders = [];
+            <div id="adminDashboard" class="hidden space-y-6">
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 space-y-4">
+                    <div class="flex justify-between items-center border-b pb-3">
+                        <h2 class="font-bold text-gray-800 text-lg flex items-center">
+                            <i class="fa-solid fa-chart-line text-brand-red mr-2"></i> ภาพรวมสถิติจาก Cloud
+                        </h2>
+                        <select id="statFilter" onchange="renderAdminStats()" class="text-xs border border-gray-300 rounded-lg px-2.5 py-1.5 outline-none bg-gray-50 font-medium">
+                            <option value="all">ทั้งหมด</option>
+                            <option value="today">วันนี้</option>
+                            <option value="yesterday">เมื่อวาน</option>
+                            <option value="7days">7 วันล่าสุด</option>
+                        </select>
+                    </div>
+                    <div class="grid grid-cols-3 gap-3 text-center">
+                        <div class="bg-red-50 p-3 rounded-xl border border-red-100">
+                            <p class="text-xs text-gray-500 font-medium">ลูกค้าทั้งหมด</p>
+                            <p id="statTotal" class="text-xl font-bold text-brand-red">0</p>
+                        </div>
+                        <div class="bg-blue-50 p-3 rounded-xl border border-blue-100">
+                            <p class="text-xs text-gray-500 font-medium">กด Facebook</p>
+                            <p id="statFB" class="text-xl font-bold text-blue-600">0</p>
+                        </div>
+                        <div class="bg-pink-50 p-3 rounded-xl border border-pink-100">
+                            <p class="text-xs text-gray-500 font-medium">กด Instagram</p>
+                            <p id="statIG" class="text-xl font-bold text-pink-600">0</p>
+                        </div>
+                    </div>
+                </div>
 
-document.addEventListener('DOMContentLoaded',()=>{
- document.getElementById('logo1').src=LOGO_URL;
- document.getElementById('logo2').src=LOGO_URL;
- document.getElementById('fb').href=FB_URL;
- document.getElementById('ig').href=IG_URL;
- document.getElementById('file').addEventListener('change',previewFile);
-});
+                <!-- Admin Tools & Settings Shortcuts -->
+                <div class="bg-gray-800 text-white p-4 rounded-2xl shadow space-y-3">
+                    <div class="flex justify-between items-center border-b border-gray-700 pb-2">
+                        <div class="text-xs">
+                            <p class="font-bold text-brand-yellow"><i class="fa-solid fa-link mr-1"></i> เครื่องมือแอดมิน & เชื่อมต่อ</p>
+                            <p class="text-gray-300">Google Drive / Google Sheets / ตั้งค่าระบบ</p>
+                        </div>
+                        <button onclick="openSettingsModal()" class="px-3 py-1.5 bg-brand-red hover:bg-brand-redDark text-xs font-semibold rounded-lg transition">
+                            <i class="fa-solid fa-gear mr-1"></i> ตั้งค่าระบบ
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 pt-1">
+                        <button onclick="openExternalUrl('drive')" class="bg-gray-700 hover:bg-gray-600 text-xs py-2 px-3 rounded-xl font-semibold flex items-center justify-center space-x-1 transition">
+                            <i class="fa-brands fa-google-drive text-green-400 text-base mr-1"></i>
+                            <span>เปิด Google Drive</span>
+                        </button>
+                        <button onclick="openExternalUrl('sheet')" class="bg-gray-700 hover:bg-gray-600 text-xs py-2 px-3 rounded-xl font-semibold flex items-center justify-center space-x-1 transition">
+                            <i class="fa-solid fa-table text-emerald-400 text-base mr-1"></i>
+                            <span>เปิด Google Sheets</span>
+                        </button>
+                    </div>
+                </div>
 
-function api(body){
- return fetch(API_URL,{
-  method:'POST',
-  headers:{'Content-Type':'text/plain;charset=utf-8'},
-  body:JSON.stringify(body)
- }).then(r=>r.json());
-}
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-bold text-gray-800 text-base flex items-center">
+                            <i class="fa-solid fa-images text-brand-red mr-2"></i> รายการรูปภาพจากลูกค้า
+                        </h3>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="fetchSubmissionsFromCloud()" class="bg-gray-200 hover:bg-gray-300 text-gray-700 text-xs px-2.5 py-1 rounded-lg font-semibold transition flex items-center">
+                                <i class="fa-solid fa-rotate mr-1"></i> รีเฟรชข้อมูล
+                            </button>
+                            <span id="orderCountBadge" class="bg-brand-red text-white text-xs px-2.5 py-0.5 rounded-full font-bold">0 รายการ</span>
+                        </div>
+                    </div>
+                    <div id="ordersList" class="space-y-4"></div>
+                </div>
+            </div>
+        </section>
+    </main>
 
-function showCustomer(){
- document.getElementById('customer').classList.remove('hidden');
- document.getElementById('admin').classList.add('hidden');
- document.getElementById('headBtn').innerHTML='<i class="fa-solid fa-lock"></i> เข้าสู่ระบบ';
-}
-function showAdmin(){
- document.getElementById('customer').classList.add('hidden');
- document.getElementById('admin').classList.remove('hidden');
- document.getElementById('headBtn').innerHTML='<i class="fa-solid fa-house"></i> หน้าหลัก';
- if(pinSession) openDashboard();
-}
-function clickSocial(p){
- social[p]=new Date().toISOString();
-}
-function previewFile(e){
- const f=e.target.files[0];
- if(!f)return;
- if(!['image/jpeg','image/png','image/webp'].includes(f.type))return alert('รองรับ JPG, PNG และ WEBP เท่านั้น');
- if(f.size>10*1024*1024)return alert('ไฟล์ต้องไม่เกิน 10MB');
- const r=new FileReader();
- r.onload=()=>{document.getElementById('preview').src=r.result;document.getElementById('preview').classList.remove('hidden')};
- r.readAsDataURL(f);
-}
-function fileToBase64(file){
- return new Promise((resolve,reject)=>{
-  const r=new FileReader();
-  r.onload=()=>resolve(r.result);
-  r.onerror=reject;
-  r.readAsDataURL(file);
- });
-}
-async function submitPhoto(){
- const name=document.getElementById('name').value.trim();
- const file=document.getElementById('file').files[0];
- if(!name)return alert('กรุณากรอกชื่อของคุณ');
- if(!file)return alert('กรุณาเลือกรูปภาพ');
- const btn=document.getElementById('send');
- btn.disabled=true; btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> กำลังส่งรูป...';
- try{
-  const data=await fileToBase64(file);
-  const res=await api({
-   action:'submit',
-   customerName:name,
-   imageBase64:data,
-   mimeType:file.type,
-   clickedFacebook:social.facebook,
-   clickedInstagram:social.instagram,
-   deviceInfo:/Mobile/i.test(navigator.userAgent)?'Mobile':'Desktop'
-  });
-  if(!res.ok)throw new Error(res.error||'ส่งรูปไม่สำเร็จ');
-  document.getElementById('customerForm').classList.add('hidden');
-  document.getElementById('success').classList.remove('hidden');
- }catch(e){
-  alert('ส่งรูปไม่สำเร็จ: '+e.message);
- }finally{
-  btn.disabled=false;btn.innerHTML='<i class="fa-solid fa-paper-plane"></i> ส่งรูปภาพ';
- }
-}
-function resetForm(){
- document.getElementById('name').value='';
- document.getElementById('file').value='';
- document.getElementById('preview').classList.add('hidden');
- social={facebook:'',instagram:''};
- document.getElementById('success').classList.add('hidden');
- document.getElementById('customerForm').classList.remove('hidden');
-}
-async function login(){
- const p=document.getElementById('pin').value;
- if(!p)return;
- try{
-  const res=await api({action:'login',pin:p});
-  if(!res.ok){document.getElementById('loginError').classList.remove('hidden');return}
-  pinSession=p;
-  sessionStorage.setItem('ramyeon_pin',p);
-  openDashboard();
- }catch(e){alert('เชื่อมต่อระบบไม่ได้')}
-}
-async function openDashboard(){
- document.getElementById('login').classList.add('hidden');
- document.getElementById('dashboard').classList.remove('hidden');
- await loadOrders();
-}
-async function loadOrders(){
- try{
-  const res=await api({action:'list',pin:pinSession});
-  if(!res.ok)throw new Error(res.error);
-  orders=res.items||[];
-  document.getElementById('total').textContent=orders.length;
-  document.getElementById('fbCount').textContent=orders.filter(x=>x.clickedFacebook).length;
-  document.getElementById('igCount').textContent=orders.filter(x=>x.clickedInstagram).length;
-  renderOrders();
- }catch(e){
-  sessionStorage.removeItem('ramyeon_pin');pinSession='';
-  document.getElementById('login').classList.remove('hidden');
-  document.getElementById('dashboard').classList.add('hidden');
-  alert('โหลดข้อมูลไม่ได้: '+e.message);
- }
-}
-function renderOrders(){
- const box=document.getElementById('orders');
- if(!orders.length){
-  box.innerHTML='<div class="bg-white rounded-2xl p-8 text-center text-gray-400">ยังไม่มีรายการ</div>';return;
- }
- box.innerHTML=orders.map(x=>{
-  const d=new Date(x.timestamp);
-  return `<div class="bg-white rounded-2xl p-4 shadow">
-   <div class="flex gap-3">
-    <img src="${esc(x.fileUrl)}" class="w-24 h-28 object-cover rounded-xl bg-gray-100" onerror="this.style.display='none'">
-    <div class="flex-1">
-     <b>${esc(x.customerName)}</b>
-     <p class="text-xs text-gray-400">${d.toLocaleString('th-TH')}</p>
-     <div class="text-xs mt-2 space-x-1">
-      <span class="px-2 py-1 rounded bg-blue-50 text-blue-700">${x.clickedFacebook?'FB กดแล้ว':'FB ยังไม่กด'}</span>
-      <span class="px-2 py-1 rounded bg-pink-50 text-pink-700">${x.clickedInstagram?'IG กดแล้ว':'IG ยังไม่กด'}</span>
-     </div>
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 py-4 text-center text-xs text-gray-500 mt-8">
+        <p>© 2026 Ramyeon ssam - All Rights Reserved</p>
+    </footer>
+
+    <!-- Admin Settings Modal -->
+    <div id="settingsModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 animate-scale-up max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="font-bold text-lg text-gray-800">ตั้งค่าระบบ (Admin Settings)</h3>
+                <button onclick="closeSettingsModal()" class="text-gray-400 hover:text-gray-600 text-xl"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="space-y-4 text-sm">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">ลิงก์ Google Drive Folder</label>
+                    <input type="url" id="settingDriveUrl" placeholder="https://drive.google.com/..." class="w-full px-3 py-2 border rounded-xl outline-none focus:ring-1 focus:ring-brand-red">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">ลิงก์ Google ชีต</label>
+                    <input type="url" id="settingSheetUrl" placeholder="https://docs.google.com/spreadsheets/..." class="w-full px-3 py-2 border rounded-xl outline-none focus:ring-1 focus:ring-brand-red">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">URL โลโก้ร้าน</label>
+                    <input type="url" id="settingLogoUrl" placeholder="https://example.com/logo.png" class="w-full px-3 py-2 border rounded-xl outline-none focus:ring-1 focus:ring-brand-red">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">เปลี่ยนรหัสผ่านแอดมิน</label>
+                    <input type="password" id="settingNewPass" placeholder="รหัสผ่านใหม่" class="w-full px-3 py-2 border rounded-xl outline-none focus:ring-1 focus:ring-brand-red">
+                </div>
+            </div>
+            <div class="pt-2 flex space-x-2">
+                <button onclick="saveAdminSettings()" class="flex-1 bg-brand-red text-white py-2.5 rounded-xl font-bold hover:bg-brand-redDark transition">
+                    บันทึกการเปลี่ยนแปลง
+                </button>
+            </div>
+        </div>
     </div>
-   </div>
-   <div class="grid grid-cols-3 gap-2 mt-3">
-    <a href="${esc(x.fileUrl)}" target="_blank" class="bg-[#E53E3E] text-white text-center p-2 rounded-xl text-xs">เปิดรูป</a>
-    <button onclick="share('${esc(x.fileUrl)}')" class="bg-gray-800 text-white p-2 rounded-xl text-xs">แชร์</button>
-    <button onclick="del('${esc(x.id)}')" class="bg-gray-200 text-red-600 p-2 rounded-xl text-xs">ลบ</button>
-   </div>
-  </div>`;
- }).join('');
-}
-async function del(id){
- if(!confirm('ต้องการลบรายการนี้และย้ายไฟล์ใน Drive ไปถังขยะหรือไม่?'))return;
- const res=await api({action:'delete',pin:pinSession,id});
- if(!res.ok)return alert(res.error);
- loadOrders();
-}
-async function share(url){
- if(navigator.share){try{await navigator.share({title:'Ramyeon ssam',url});return}catch(e){}}
- window.open(url,'_blank');
-}
-function openDrive(){
- alert('ให้ใส่ DRIVE_FOLDER_ID ใน Apps Script แล้วเปิดโฟลเดอร์นั้นจาก Google Drive');
- window.open('https://drive.google.com/drive/my-drive','_blank');
-}
-function openSheet(){
- window.open('https://docs.google.com/spreadsheets/u/0/','_blank');
-}
-async function changePin(){
- const np=prompt('กรอกรหัสผ่านแอดมินใหม่');
- if(!np)return;
- const res=await api({action:'settings',pin:pinSession,newPin:np});
- if(!res.ok)return alert(res.error);
- pinSession=np;sessionStorage.setItem('ramyeon_pin',np);
- alert('เปลี่ยนรหัสผ่านเรียบร้อยแล้ว');
-}
-function esc(s){
- return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
-}
-</script>
+
+    <!-- Script สำหรับระบบทำงานฝั่ง Frontend และเชื่อมต่อ Google Apps Script -->
+    <script>
+        // ลิงก์ Google Apps Script Web App ของคุณ
+        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxq9d0poGulrS7A8QQd8I8LGGc_78Tz43X1QnnWawam4yEC8B9AnSjufuS2kj09O3TF8g/exec";
+
+        let submissions = [];
+        let adminSettings = JSON.parse(localStorage.getItem('ramyeon_settings') || JSON.stringify({
+            password: 'admin123',
+            driveUrl: '',
+            sheetUrl: '',
+            logoUrl: 'https://lh3.googleusercontent.com/d/1avrpH8b5iRnkjaL7LYaksy7vf1P2h2H7'
+        }));
+        
+        let selectedFileData = null;
+        let socialClicksState = { facebook: null, instagram: null };
+        let isAdminLoggedIn = sessionStorage.getItem('ramyeon_admin_logged') === 'true';
+
+        window.addEventListener('DOMContentLoaded', () => {
+            applyLogoSettings();
+            fetchSubmissionsFromCloud();
+            if (isAdminLoggedIn) {
+                switchView('admin');
+            } else {
+                switchView('customer');
+            }
+        });
+
+        function fetchSubmissionsFromCloud() {
+            fetch(APPS_SCRIPT_URL + "?action=getSubmissions")
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        submissions = data.submissions;
+                        if (isAdminLoggedIn) {
+                            renderAdminDashboard();
+                        }
+                    }
+                })
+                .catch(err => console.error("ไม่สามารถโหลดข้อมูลจาก Google Sheets ได้:", err));
+        }
+
+        function applyLogoSettings() {
+            const logoImg = document.getElementById('logoImg');
+            const bannerLogoImg = document.getElementById('bannerLogoImg');
+            const targetLogo = adminSettings.logoUrl || 'https://lh3.googleusercontent.com/d/1avrpH8b5iRnkjaL7LYaksy7vf1P2h2H7';
+            if (logoImg) logoImg.src = targetLogo;
+            if (bannerLogoImg) bannerLogoImg.src = targetLogo;
+        }
+
+        function handleHeaderAction() {
+            if (isAdminLoggedIn) {
+                isAdminLoggedIn = false;
+                sessionStorage.removeItem('ramyeon_admin_logged');
+                switchView('customer');
+            } else {
+                switchView('admin');
+            }
+        }
+
+        function returnToMainOrCustomer() {
+            switchView(isAdminLoggedIn ? 'admin' : 'customer');
+        }
+
+        function switchView(viewName) {
+            const customerView = document.getElementById('customerView');
+            const adminView = document.getElementById('adminView');
+            const headerActionText = document.getElementById('headerActionText');
+            const headerActionIcon = document.getElementById('headerActionIcon');
+
+            if (viewName === 'customer') {
+                customerView.classList.remove('hidden');
+                adminView.classList.add('hidden');
+                headerActionText.innerText = 'เข้าสู่ระบบ';
+                headerActionIcon.className = "fa-solid fa-lock mr-1";
+            } else {
+                customerView.classList.add('hidden');
+                adminView.classList.remove('hidden');
+                if (isAdminLoggedIn) {
+                    headerActionText.innerText = 'ออกจากระบบ';
+                    headerActionIcon.className = "fa-solid fa-right-from-bracket mr-1";
+                    document.getElementById('adminLoginCard').classList.add('hidden');
+                    document.getElementById('adminDashboard').classList.remove('hidden');
+                    fetchSubmissionsFromCloud();
+                } else {
+                    headerActionText.innerText = 'กลับหน้าหลัก';
+                    headerActionIcon.className = "fa-solid fa-house mr-1";
+                    document.getElementById('adminLoginCard').classList.remove('hidden');
+                    document.getElementById('adminDashboard').classList.add('hidden');
+                }
+            }
+        }
+
+        function trackSocialClick(platform) {
+            const now = new Date().toISOString();
+            if (platform === 'facebook') socialClicksState.facebook = now;
+            if (platform === 'instagram') socialClicksState.instagram = now;
+        }
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                selectedFileData = {
+                    name: file.name,
+                    type: file.type,
+                    dataUrl: e.target.result
+                };
+                document.getElementById('imagePreview').src = e.target.result;
+                document.getElementById('uploadPrompt').classList.add('hidden');
+                document.getElementById('previewContainer').classList.remove('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function removeSelectedImage() {
+            selectedFileData = null;
+            document.getElementById('fileInput').value = '';
+            document.getElementById('imagePreview').src = '';
+            document.getElementById('uploadPrompt').classList.remove('hidden');
+            document.getElementById('previewContainer').classList.add('hidden');
+        }
+
+        function submitPhoto() {
+            const nameInput = document.getElementById('customerName').value.trim();
+            if (!nameInput) {
+                alert('กรุณากรอกชื่อของคุณก่อนส่งรูปภาพ');
+                return;
+            }
+            if (!selectedFileData) {
+                alert('กรุณาเลือกรูปภาพที่ต้องการพิมพ์');
+                return;
+            }
+
+            const submitBtn = document.getElementById('submitBtn');
+            const progressContainer = document.getElementById('progressContainer');
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i><span>กำลังอัปโหลดรูปภาพ…</span>`;
+            progressContainer.classList.remove('hidden');
+
+            let progress = 20;
+            progressBar.style.width = `${progress}%`;
+            progressText.innerText = `${progress}%`;
+
+            const payload = {
+                customerName: nameInput,
+                fileName: selectedFileData.name,
+                mimeType: selectedFileData.type,
+                fileData: selectedFileData.dataUrl,
+                clickedFacebook: socialClicksState.facebook,
+                clickedInstagram: socialClicksState.instagram,
+                deviceInfo: navigator.userAgent.includes('Mobile') ? 'มือถือ' : 'คอมพิวเตอร์'
+            };
+
+            progress = 60;
+            progressBar.style.width = `${progress}%`;
+            progressText.innerText = `${progress}%`;
+
+            fetch(APPS_SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify(payload)
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    progress = 100;
+                    progressBar.style.width = `${progress}%`;
+                    progressText.innerText = `${progress}%`;
+
+                    setTimeout(() => {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = `<i class="fa-solid fa-paper-plane"></i><span>ส่งรูปภาพ</span>`;
+                        progressContainer.classList.add('hidden');
+                        document.getElementById('customerFormView').classList.add('hidden');
+                        document.getElementById('thankYouView').classList.remove('hidden');
+                        fetchSubmissionsFromCloud();
+                    }, 500);
+                } else {
+                    alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล: ' + data.message);
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = `<i class="fa-solid fa-paper-plane"></i><span>ส่งรูปภาพ</span>`;
+                    progressContainer.classList.add('hidden');
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert('ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ Google Apps Script ได้');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = `<i class="fa-solid fa-paper-plane"></i><span>ส่งรูปภาพ</span>`;
+                progressContainer.classList.add('hidden');
+            });
+        }
+
+        function resetCustomerForm() {
+            document.getElementById('customerName').value = '';
+            removeSelectedImage();
+            socialClicksState = { facebook: null, instagram: null };
+            document.getElementById('thankYouView').classList.add('hidden');
+            document.getElementById('customerFormView').classList.remove('hidden');
+        }
+
+        function loginAdmin() {
+            const pass = document.getElementById('adminPassword').value;
+            if (pass === adminSettings.password) {
+                isAdminLoggedIn = true;
+                sessionStorage.setItem('ramyeon_admin_logged', 'true');
+                document.getElementById('adminLoginCard').classList.add('hidden');
+                document.getElementById('adminDashboard').classList.remove('hidden');
+                document.getElementById('loginError').classList.add('hidden');
+                document.getElementById('adminPassword').value = '';
+                switchView('admin');
+            } else {
+                document.getElementById('loginError').classList.remove('hidden');
+            }
+        }
+
+        function renderAdminDashboard() {
+            renderAdminStats();
+            renderOrdersList();
+        }
+
+        function renderAdminStats() {
+            const filter = document.getElementById('statFilter').value;
+            const now = new Date();
+            let filtered = submissions.filter(item => {
+                if (!item.date) return true;
+                // Parse DD/MM/YYYY format
+                const parts = item.date.split('/');
+                if (parts.length !== 3) return true;
+                const itemDate = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
+
+                if (filter === 'today') {
+                    return itemDate.toDateString() === now.toDateString();
+                } else if (filter === 'yesterday') {
+                    const yday = new Date(now);
+                    yday.setDate(now.getDate() - 1);
+                    return itemDate.toDateString() === yday.toDateString();
+                } else if (filter === '7days') {
+                    const diffTime = Math.abs(now - itemDate);
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                    return diffDays <= 7;
+                }
+                return true;
+            });
+
+            document.getElementById('statTotal').innerText = filtered.length;
+            document.getElementById('statFB').innerText = filtered.filter(i => i.clickedFacebook).length;
+            document.getElementById('statIG').innerText = filtered.filter(i => i.clickedInstagram).length;
+        }
+
+        function renderOrdersList() {
+            const container = document.getElementById('ordersList');
+            document.getElementById('orderCountBadge').innerText = `${submissions.length} รายการ`;
+
+            if (submissions.length === 0) {
+                container.innerHTML = `<div class="bg-white rounded-2xl p-8 text-center text-gray-400 space-y-2"><i class="fa-solid fa-inbox text-4xl"></i><p>ยังไม่มีรายการส่งรูปจากลูกค้าในระบบ Cloud</p></div>`;
+                return;
+            }
+
+            container.innerHTML = submissions.map(item => `
+                <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex flex-col sm:flex-row items-center gap-4">
+                    <div class="w-full sm:w-28 h-36 bg-gray-100 rounded-xl overflow-hidden flex-shrink-0">
+                        <img src="${item.imageUrl}" alt="${item.customerName}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-grow w-full space-y-2 text-left">
+                        <h4 class="font-bold text-gray-800 text-base">${item.customerName}</h4>
+                        <p class="text-xs text-gray-400">วันที่ ${item.date || ''} เวลา ${item.time || ''} น.</p>
+                        <a href="${item.imageUrl}" target="_blank" download="${item.fileName}" class="inline-block bg-brand-red text-white text-xs py-2 px-4 rounded-xl font-semibold hover:bg-brand-redDark transition">
+                            <i class="fa-solid fa-download mr-1"></i> ดาวน์โหลดรูปจาก Drive
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openExternalUrl(type) {
+            if (type === 'drive') {
+                window.open('https://drive.google.com/drive/search?q=RamyeonSsam_Uploads', '_blank');
+            } else if (type === 'sheet') {
+                window.open('https://docs.google.com/spreadsheets/u/0/', '_blank');
+            }
+        }
+
+        function openSettingsModal() {
+            document.getElementById('settingDriveUrl').value = adminSettings.driveUrl || '';
+            document.getElementById('settingSheetUrl').value = adminSettings.sheetUrl || '';
+            document.getElementById('settingLogoUrl').value = adminSettings.logoUrl || '';
+            document.getElementById('settingNewPass').value = '';
+            document.getElementById('settingsModal').classList.remove('hidden');
+        }
+
+        function closeSettingsModal() {
+            document.getElementById('settingsModal').classList.add('hidden');
+        }
+
+        function saveAdminSettings() {
+            adminSettings.driveUrl = document.getElementById('settingDriveUrl').value.trim();
+            adminSettings.sheetUrl = document.getElementById('settingSheetUrl').value.trim();
+            const logoUrl = document.getElementById('settingLogoUrl').value.trim();
+            if (logoUrl) adminSettings.logoUrl = logoUrl;
+            const newPass = document.getElementById('settingNewPass').value.trim();
+            if (newPass) adminSettings.password = newPass;
+
+            localStorage.setItem('ramyeon_settings', JSON.stringify(adminSettings));
+            applyLogoSettings();
+            closeSettingsModal();
+            alert('บันทึกการตั้งค่าระบบเรียบร้อยแล้ว!');
+        }
+    </script>
 </body>
 </html>
+
