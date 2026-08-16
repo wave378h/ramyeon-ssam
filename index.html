@@ -126,7 +126,7 @@
                             <span class="inline-block bg-brand-red text-white text-xs px-2 py-0.5 rounded-full mr-1">ขั้นตอนที่ 2</span>
                             อัปโหลดรูปภาพของคุณ <span class="text-brand-red">*</span>
                         </label>
-                        <p class="text-xs text-gray-500 mt-1">รูปน้องหมา น้องแมว รูปคู่เพื่อน หวานใจ รูปวาดคาแรคเตอร์ตัวเอง หรือรูปอื่นๆ</p>
+                        <p class="text-xs text-gray-500 mt-1">รูปน้องหมา น้องแมว รูปคู่เพื่อน หวานใจ หรือรูปอื่นๆ</p>
                     </div>
 
                     <div id="uploadBox" class="border-2 border-dashed border-red-200 rounded-2xl p-6 text-center bg-red-50/30 hover:bg-red-50/80 transition cursor-pointer relative" onclick="document.getElementById('fileInput').click()">
@@ -473,9 +473,12 @@
                             applyLogoSettings();
                         }
 
+                        // ตรวจสอบออเดอร์ใหม่เฉพาะฝั่งแอดมิน (เมื่อมีออเดอร์เพิ่มขึ้น จะแจ้งเตือนเฉพาะแอดมิน)
                         if (lastSubmissionCount > 0 && cloudSubmissions.length > lastSubmissionCount) {
                             const latest = cloudSubmissions[0];
-                            // นำออกตามคำขอ: ปิดเสียงและสั่นฝั่งลูกค้าเมื่อลูกค้ากดส่งข้อมูล
+                            if (isAdminLoggedIn) {
+                                triggerAdminAlert(latest.customerName || 'น้องซัมซัมยัง');
+                            }
                         }
                         
                         lastSubmissionCount = cloudSubmissions.length;
