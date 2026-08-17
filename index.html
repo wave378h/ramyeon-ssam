@@ -126,7 +126,7 @@
                             <span class="inline-block bg-brand-red text-white text-xs px-2 py-0.5 rounded-full mr-1">ขั้นตอนที่ 2</span>
                             อัปโหลดรูปภาพของคุณ <span class="text-brand-red">*</span>
                         </label>
-                        <p class="text-xs text-gray-500 mt-1">รูปน้องหมา น้องแมว รูปคู่เพื่อน หวานใจ หรือรูปอื่นๆ</p>
+                        <p class="text-xs text-gray-500 mt-1">รูปน้องหมา น้องแมว รูปคู่เพื่อน หวานใจ รูปวาดคาแรคเตอร์ตัวเอง หรือรูปอื่นๆ</p>
                     </div>
 
                     <div id="uploadBox" class="border-2 border-dashed border-red-200 rounded-2xl p-6 text-center bg-red-50/30 hover:bg-red-50/80 transition cursor-pointer relative" onclick="document.getElementById('fileInput').click()">
@@ -473,7 +473,6 @@
                             applyLogoSettings();
                         }
 
-                        // ตรวจสอบออเดอร์ใหม่เฉพาะฝั่งแอดมิน (เมื่อมีออเดอร์เพิ่มขึ้น จะแจ้งเตือนเฉพาะแอดมิน)
                         if (lastSubmissionCount > 0 && cloudSubmissions.length > lastSubmissionCount) {
                             const latest = cloudSubmissions[0];
                             if (isAdminLoggedIn) {
@@ -831,11 +830,16 @@
             container.innerHTML = submissions.map(item => {
                 const safeImageUrl = formatDriveImageUrl(item.imageUrl);
                 return `
-                <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex flex-col sm:flex-row items-center gap-4">
+                <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex flex-col sm:flex-row items-center gap-4 relative">
+                    <!-- ปุ่มลบรูปภาพมุมบนขวา (มีเฉพาะไอคอน) -->
+                    <button onclick="deleteSubmission('${item.id}')" class="absolute top-3 right-3 text-red-500 hover:text-red-700 bg-red-50 hover:bg-red-100 p-2 rounded-xl transition shadow-sm" title="ลบรายการ">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+
                     <div class="w-full sm:w-28 h-36 bg-gray-100 rounded-xl overflow-hidden flex-shrink-0">
                         <img src="${safeImageUrl}" alt="${item.customerName}" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150?text=No+Image'">
                     </div>
-                    <div class="flex-grow w-full space-y-2 text-left">
+                    <div class="flex-grow w-full space-y-2 text-left pr-6">
                         <h4 class="font-bold text-gray-800 text-base">${item.customerName}</h4>
                         <p class="text-xs text-gray-400">วันที่ ${item.date || ''} เวลา ${item.time || ''} น.</p>
                         
@@ -849,10 +853,10 @@
                         </div>
 
                         <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-gray-50">
-                            <a href="${safeImageUrl}" download="${item.fileName || 'image.jpg'}" class="bg-brand-red text-white text-xs py-2 px-3 rounded-xl font-semibold text-center hover:bg-brand-redDark transition flex items-center space-x-1">
+                            <button onclick="downloadImageDirectly('${safeImageUrl}', '${item.fileName || 'image.jpg'}')" class="bg-brand-red text-white text-xs py-2 px-3 rounded-xl font-semibold text-center hover:bg-brand-redDark transition flex items-center space-x-1 cursor-pointer">
                                 <i class="fa-solid fa-download"></i>
                                 <span>ดาวน์โหลด</span>
-                            </a>
+                            </button>
                             <a href="${item.imageUrl}" target="_blank" class="bg-blue-600 text-white text-xs py-2 px-3 rounded-xl font-semibold text-center hover:bg-blue-700 transition flex items-center space-x-1">
                                 <i class="fa-brands fa-google-drive"></i>
                                 <span>เปิด Drive</span>
@@ -860,13 +864,29 @@
                             <button onclick="openDetailModal('${item.id}')" class="px-3 py-2 bg-gray-100 text-gray-700 text-xs rounded-xl font-medium hover:bg-gray-200 transition">
                                 รายละเอียด
                             </button>
-                            <button onclick="deleteSubmission('${item.id}')" class="px-3 py-2 bg-red-50 text-red-600 text-xs rounded-xl font-medium hover:bg-red-100 transition">
-                                <i class="fa-solid fa-trash"></i> ลบ
-                            </button>
                         </div>
                     </div>
                 </div>
             `;}).join('');
+        }
+
+        // ฟังก์ชันดาวน์โหลดภาพลงเครื่องโดยตรงผ่าน Blob
+        async function downloadImageDirectly(imgUrl, fileName) {
+            try {
+                const response = await fetch(imgUrl);
+                const blob = await response.blob();
+                const blobUrl = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = blobUrl;
+                a.download = fileName;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(blobUrl);
+            } catch (error) {
+                // หากติดปัญหา CORS ให้เปิดลิงก์รูปภาพในแท็บใหม่แทน
+                window.open(imgUrl, '_blank');
+            }
         }
 
         function deleteSubmission(id) {
@@ -989,5 +1009,4 @@
     </script>
 </body>
 </html>
-
 
